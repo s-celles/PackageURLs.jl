@@ -13,7 +13,7 @@ Thank you for your interest in contributing to PURL.jl! This document provides g
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/scelles/PURL.jl.git
+   git clone https://github.com/s-celles/PURL.jl.git
    cd PURL.jl
    ```
 
