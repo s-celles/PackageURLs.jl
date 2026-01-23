@@ -95,7 +95,8 @@ purl = tryparse(PackageURL, purl_string)
 if purl !== nothing
     println("Package: $(purl.name)")
     println("Version: $(purl.version)")
-    println("UUID: $(get(purl.qualifiers, \"uuid\", \"unknown\"))")
+    uuid_val = get(purl.qualifiers, "uuid", "unknown")
+    println("UUID: $uuid_val")
 else
     @warn "Invalid PURL in advisory: $purl_string"
 end
