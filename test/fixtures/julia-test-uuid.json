@@ -1,0 +1,95 @@
+{
+  "$schema": "https://packageurl.org/schemas/purl-test.schema-0.1.json",
+  "tests": [
+    {
+      "description": "invalid julia purl with malformed uuid - not a uuid",
+      "test_group": "base",
+      "test_type": "parse",
+      "input": "pkg:julia/Example?uuid=not-a-uuid",
+      "expected_output": null,
+      "expected_failure": true,
+      "expected_failure_reason": "UUID format is invalid - does not match RFC 4122"
+    },
+    {
+      "description": "invalid julia purl with malformed uuid - missing hyphens",
+      "test_group": "base",
+      "test_type": "parse",
+      "input": "pkg:julia/Example?uuid=ade2ca70389159459900fdc099432e06a",
+      "expected_output": null,
+      "expected_failure": true,
+      "expected_failure_reason": "UUID format is invalid - missing hyphens"
+    },
+    {
+      "description": "invalid julia purl with malformed uuid - too short",
+      "test_group": "base",
+      "test_type": "parse",
+      "input": "pkg:julia/Example?uuid=ade2ca70-3891-5945-98fb-dc099432e06",
+      "expected_output": null,
+      "expected_failure": true,
+      "expected_failure_reason": "UUID format is invalid - too short"
+    },
+    {
+      "description": "invalid julia purl with malformed uuid - too long",
+      "test_group": "base",
+      "test_type": "parse",
+      "input": "pkg:julia/Example?uuid=ade2ca70-3891-5945-98fb-dc099432e06aa",
+      "expected_output": null,
+      "expected_failure": true,
+      "expected_failure_reason": "UUID format is invalid - too long"
+    },
+    {
+      "description": "invalid julia purl with malformed uuid - non-hex characters",
+      "test_group": "base",
+      "test_type": "parse",
+      "input": "pkg:julia/Example?uuid=zzzzzzzz-zzzz-zzzz-zzzz-zzzzzzzzzzzz",
+      "expected_output": null,
+      "expected_failure": true,
+      "expected_failure_reason": "UUID format is invalid - non-hexadecimal characters"
+    },
+    {
+      "description": "invalid julia purl with empty uuid",
+      "test_group": "base",
+      "test_type": "parse",
+      "input": "pkg:julia/Example?uuid=",
+      "expected_output": null,
+      "expected_failure": true,
+      "expected_failure_reason": "UUID qualifier cannot be empty"
+    },
+    {
+      "description": "valid julia purl with uppercase uuid",
+      "test_group": "base",
+      "test_type": "parse",
+      "input": "pkg:julia/Example?uuid=ADE2CA70-3891-5945-98FB-DC099432E06A",
+      "expected_output": {
+        "type": "julia",
+        "namespace": null,
+        "name": "Example",
+        "version": null,
+        "qualifiers": {
+          "uuid": "ADE2CA70-3891-5945-98FB-DC099432E06A"
+        },
+        "subpath": null
+      },
+      "expected_failure": false,
+      "expected_failure_reason": null
+    },
+    {
+      "description": "valid julia purl with mixed case uuid",
+      "test_group": "base",
+      "test_type": "parse",
+      "input": "pkg:julia/Example?uuid=Ade2Ca70-3891-5945-98Fb-Dc099432e06A",
+      "expected_output": {
+        "type": "julia",
+        "namespace": null,
+        "name": "Example",
+        "version": null,
+        "qualifiers": {
+          "uuid": "Ade2Ca70-3891-5945-98Fb-Dc099432e06A"
+        },
+        "subpath": null
+      },
+      "expected_failure": false,
+      "expected_failure_reason": null
+    }
+  ]
+}

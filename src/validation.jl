@@ -1,5 +1,7 @@
 # Type-specific validation rules for PURL
 
+using UUIDs
+
 """
     validate_type(s::AbstractString) -> Bool
 
@@ -114,12 +116,23 @@ normalize_name(::JuliaTypeRules, name::AbstractString) = String(name)
 
 Validate Julia PURL requirements:
 - uuid qualifier is required for package disambiguation
+- uuid must be valid RFC 4122 format (8-4-4-4-12 hex digits)
 """
 function validate_purl(::JuliaTypeRules, purl)
     # Julia packages require uuid qualifier
     if purl.qualifiers === nothing || !haskey(purl.qualifiers, "uuid")
         throw(PURLError("Julia PURL requires 'uuid' qualifier"))
     end
+
+    # Validate UUID format per RFC 4122
+    uuid_str = purl.qualifiers["uuid"]
+    if tryparse(UUID, uuid_str) === nothing
+        throw(PURLError(
+            "Invalid UUID format in 'uuid' qualifier: '$uuid_str' " *
+            "does not match RFC 4122 format (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)"
+        ))
+    end
+
     return nothing
 end
 

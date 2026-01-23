@@ -38,6 +38,70 @@
         @test tryparse(PackageURL, "pkg:julia/Dates@1.0.0") === nothing
     end
 
+    @testset "Julia PURL UUID format validation" begin
+        # UUID format must be RFC 4122 compliant: 8-4-4-4-12 hexadecimal digits
+
+        # Valid UUIDs (various cases)
+        @testset "Valid UUID formats" begin
+            # Lowercase UUID
+            purl = parse(PackageURL, "pkg:julia/Example?uuid=ade2ca70-3891-5945-98fb-dc099432e06a")
+            @test purl.qualifiers["uuid"] == "ade2ca70-3891-5945-98fb-dc099432e06a"
+
+            # Uppercase UUID (case-insensitive per RFC 4122)
+            purl = parse(PackageURL, "pkg:julia/Example?uuid=ADE2CA70-3891-5945-98FB-DC099432E06A")
+            @test purl.qualifiers["uuid"] == "ADE2CA70-3891-5945-98FB-DC099432E06A"
+
+            # Mixed case UUID
+            purl = parse(PackageURL, "pkg:julia/Example?uuid=Ade2Ca70-3891-5945-98Fb-Dc099432e06A")
+            @test purl.qualifiers["uuid"] == "Ade2Ca70-3891-5945-98Fb-Dc099432e06A"
+        end
+
+        # Invalid UUIDs should be rejected
+        @testset "Invalid UUID formats" begin
+            # Not a UUID at all
+            @test_throws PURLError parse(PackageURL, "pkg:julia/Example?uuid=not-a-uuid")
+            @test tryparse(PackageURL, "pkg:julia/Example?uuid=not-a-uuid") === nothing
+
+            # Missing hyphens (32 hex chars without separators)
+            @test_throws PURLError parse(PackageURL, "pkg:julia/Example?uuid=ade2ca70389159459900fdc099432e06a")
+
+            # Too short
+            @test_throws PURLError parse(PackageURL, "pkg:julia/Example?uuid=ade2ca70-3891-5945-98fb-dc099432e06")
+
+            # Too long
+            @test_throws PURLError parse(PackageURL, "pkg:julia/Example?uuid=ade2ca70-3891-5945-98fb-dc099432e06aa")
+
+            # Non-hex characters
+            @test_throws PURLError parse(PackageURL, "pkg:julia/Example?uuid=zzzzzzzz-zzzz-zzzz-zzzz-zzzzzzzzzzzz")
+
+            # Empty UUID value
+            @test_throws PURLError parse(PackageURL, "pkg:julia/Example?uuid=")
+        end
+
+        # Error messages should be clear and actionable
+        @testset "Error message quality" begin
+            # Error message should include the invalid UUID value
+            try
+                parse(PackageURL, "pkg:julia/Example?uuid=invalid-uuid-value")
+                @test false  # Should have thrown
+            catch e
+                @test e isa PURLError
+                @test occursin("invalid-uuid-value", e.message)
+                @test occursin("RFC 4122", e.message) || occursin("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", e.message)
+            end
+
+            # Error message for missing uuid should be clear
+            try
+                parse(PackageURL, "pkg:julia/Example")
+                @test false  # Should have thrown
+            catch e
+                @test e isa PURLError
+                @test occursin("uuid", lowercase(e.message))
+                @test occursin("require", lowercase(e.message))
+            end
+        end
+    end
+
     @testset "npm scoped package namespace handling" begin
         # T071: npm scoped packages use @scope as namespace
 

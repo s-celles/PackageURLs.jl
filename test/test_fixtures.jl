@@ -210,4 +210,42 @@ include("fixtures.jl")
         end
     end
 
+    @testset "Julia UUID Validation Tests" begin
+        tests = load_julia_uuid_tests()
+        parse_cases = parse_tests(tests)
+
+        @testset "Valid UUID format cases" begin
+            for tc in success_tests(parse_cases)
+                @testset "$(tc.description)" begin
+                    input = tc.input::String
+                    expected = tc.expected_output::PURLComponents
+
+                    purl = parse(PackageURL, input)
+
+                    @test purl.type == expected.type
+                    @test purl.namespace == expected.namespace
+                    @test purl.name == expected.name
+                    @test purl.version == expected.version
+                    @test purl.qualifiers == expected.qualifiers
+                    @test purl.subpath == expected.subpath
+                end
+            end
+        end
+
+        @testset "Invalid UUID format cases" begin
+            for tc in failure_tests(parse_cases)
+                @testset "$(tc.description)" begin
+                    input = tc.input::String
+
+                    # Test that invalid UUID formats return nothing from tryparse
+                    result = tryparse(PackageURL, input)
+                    @test result === nothing
+
+                    # Also verify it throws PURLError when using parse
+                    @test_throws PURLError parse(PackageURL, input)
+                end
+            end
+        end
+    end
+
 end

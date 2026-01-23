@@ -4,8 +4,10 @@ version = "0.1.0"
 authors = ["PURL.jl Contributors"]
 
 [deps]
+UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 
 [compat]
+UUIDs = "1.6"
 julia = "1.6"
 
 [extras]

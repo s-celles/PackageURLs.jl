@@ -163,6 +163,22 @@ function load_julia_tests()
 end
 
 """
+    load_julia_uuid_tests() -> Vector{PURLTestCase}
+
+Load Julia UUID validation test cases from julia-test-uuid.json fixture.
+Tests for RFC 4122 UUID format validation in Julia PURLs.
+"""
+function load_julia_uuid_tests()
+    filepath = joinpath(FIXTURES_DIR, "julia-test-uuid.json")
+
+    if !isfile(filepath)
+        error("Fixture not found: $filepath")
+    end
+
+    load_test_file(filepath)
+end
+
+"""
     load_all_fixtures() -> Vector{PURLTestCase}
 
 Load all available test fixtures.
