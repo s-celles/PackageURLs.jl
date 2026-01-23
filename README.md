@@ -39,4 +39,3 @@ See the [documentation](https://s-celles.github.io/PURL.jl/dev) for PURL compone
 ## License
 
 MIT License - see [LICENSE](LICENSE) for details.
-
