@@ -8,7 +8,8 @@ Package URLs (PURLs) are a standardized way to identify and locate software pack
 
 ```julia
 using Pkg
-Pkg.add("PURL")
+Pkg.add(url="https://github.com/s-celles/PURL.jl")  # until unregistered
+# Pkg.add("PURL")  # when registered to General registry
 ```
 
 ## Quick Start

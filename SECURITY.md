@@ -16,7 +16,7 @@ We take security vulnerabilities seriously. If you discover a security issue in 
 
 Instead, please report security vulnerabilities by emailing the maintainers directly or using GitHub's private vulnerability reporting feature:
 
-1. Go to the [Security tab](https://github.com/scelles/PURL.jl/security) of the repository
+1. Go to the [Security tab](https://github.com/s-celles/PURL.jl/security) of the repository
 2. Click "Report a vulnerability"
 3. Fill out the vulnerability report form
 
