@@ -7,10 +7,11 @@ makedocs(;
     modules=[PURL],
     authors="PURL.jl Contributors",
     sitename="PURL.jl",
-    remotes=nothing,  # Disable source links until repo is set up
+    repo=Documenter.Remotes.GitHub("s-celles", "PURL.jl"),
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
         assets=String[],
+        repolink="https://github.com/s-celles/PURL.jl",
     ),
     pages=[
         "Home" => "index.md",
