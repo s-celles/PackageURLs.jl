@@ -14,13 +14,15 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
+        "PURL Components" => "components.md",
+        "Examples" => "examples.md",
+        "Integration Guide" => "integration.md",
         "API Reference" => "api.md",
     ],
     checkdocs=:exports,
-    warnonly=[:missing_docs],
 )
 
 deploydocs(;
-    repo="github.com/scelles/PURL.jl",
+    repo="github.com/s-celles/PURL.jl",
     devbranch="main",
 )
