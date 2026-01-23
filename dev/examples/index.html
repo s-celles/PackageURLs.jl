@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Examples · PURL.jl</title><meta name="title" content="Examples · PURL.jl"/><meta property="og:title" content="Examples · PURL.jl"/><meta property="twitter:title" content="Examples · PURL.jl"/><meta name="description" content="Documentation for PURL.jl."/><meta property="og:description" content="Documentation for PURL.jl."/><meta property="twitter:description" content="Documentation for PURL.jl."/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">PURL.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><a class="tocitem" href="../components/">PURL Components</a></li><li class="is-active"><a class="tocitem" href>Examples</a><ul class="internal"><li><a class="tocitem" href="#Julia-Packages"><span>Julia Packages</span></a></li><li><a class="tocitem" href="#npm-Packages"><span>npm Packages</span></a></li><li><a class="tocitem" href="#Python/PyPI-Packages"><span>Python/PyPI Packages</span></a></li><li><a class="tocitem" href="#Maven-Packages"><span>Maven Packages</span></a></li><li><a class="tocitem" href="#Cargo-(Rust)-Packages"><span>Cargo (Rust) Packages</span></a></li><li><a class="tocitem" href="#Go-Modules"><span>Go Modules</span></a></li><li><a class="tocitem" href="#NuGet-(.NET)-Packages"><span>NuGet (.NET) Packages</span></a></li><li><a class="tocitem" href="#Docker-Images"><span>Docker Images</span></a></li><li><a class="tocitem" href="#GitHub-Repositories"><span>GitHub Repositories</span></a></li><li><a class="tocitem" href="#Constructing-PURLs-Programmatically"><span>Constructing PURLs Programmatically</span></a></li><li><a class="tocitem" href="#Safe-Parsing"><span>Safe Parsing</span></a></li></ul></li><li><a class="tocitem" href="../integration/">Integration Guide</a></li><li><a class="tocitem" href="../api/">API Reference</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Examples</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Examples</a></li></ul></nav><div class="docs-right"><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Examples"><a class="docs-heading-anchor" href="#Examples">Examples</a><a id="Examples-1"></a><a class="docs-heading-anchor-permalink" href="#Examples" title="Permalink"></a></h1><p>This page provides ecosystem-specific examples for creating and parsing PURLs.</p><h2 id="Julia-Packages"><a class="docs-heading-anchor" href="#Julia-Packages">Julia Packages</a><a id="Julia-Packages-1"></a><a class="docs-heading-anchor-permalink" href="#Julia-Packages" title="Permalink"></a></h2><p>Julia PURLs require the <code>uuid</code> qualifier for package disambiguation:</p><pre><code class="language-julia hljs">using PURL
+
+# Standard library package
+purl&quot;pkg:julia/Dates@1.9.0?uuid=ade2ca70-3891-5945-98fb-dc099432e06a&quot;
+
+# General registry packages
+purl&quot;pkg:julia/HTTP@1.10.0?uuid=cd3eb016-35fb-5094-929b-558a96fad6f3&quot;
+purl&quot;pkg:julia/Example@1.0.0?uuid=7876af07-990d-54b4-ab0e-23690620f79a&quot;
+
+# Access components
+purl = parse(PackageURL, &quot;pkg:julia/Example@1.0.0?uuid=7876af07-990d-54b4-ab0e-23690620f79a&quot;)
+purl.type       # &quot;julia&quot;
+purl.name       # &quot;Example&quot;
+purl.version    # &quot;1.0.0&quot;
+purl.qualifiers # Dict(&quot;uuid&quot; =&gt; &quot;7876af07-990d-54b4-ab0e-23690620f79a&quot;)</code></pre><div class="admonition is-info" id="Finding-Package-UUIDs-b65714b06b4c8853"><header class="admonition-header">Finding Package UUIDs<a class="admonition-anchor" href="#Finding-Package-UUIDs-b65714b06b4c8853" title="Permalink"></a></header><div class="admonition-body"><p>Package UUIDs can be found in:</p><ul><li>The package&#39;s <code>Project.toml</code> file</li><li>The <a href="https://github.com/JuliaRegistries/General">Julia General registry</a></li><li>Using <code>Pkg.status()</code> in the Julia REPL</li></ul></div></div><h2 id="npm-Packages"><a class="docs-heading-anchor" href="#npm-Packages">npm Packages</a><a id="npm-Packages-1"></a><a class="docs-heading-anchor-permalink" href="#npm-Packages" title="Permalink"></a></h2><p>npm packages include both scoped and unscoped packages:</p><pre><code class="language-julia hljs"># Unscoped packages
+purl&quot;pkg:npm/lodash@4.17.21&quot;
+purl&quot;pkg:npm/express@4.18.2&quot;
+purl&quot;pkg:npm/typescript@5.0.0&quot;
+
+# Scoped packages (@ is encoded as %40)
+purl&quot;pkg:npm/%40angular/core@15.0.0&quot;
+purl&quot;pkg:npm/%40types/node@18.0.0&quot;
+purl&quot;pkg:npm/%40babel/core@7.20.0&quot;
+
+# Parse and access components
+purl = parse(PackageURL, &quot;pkg:npm/%40angular/core@15.0.0&quot;)
+purl.namespace  # &quot;@angular&quot;
+purl.name       # &quot;core&quot;</code></pre><h2 id="Python/PyPI-Packages"><a class="docs-heading-anchor" href="#Python/PyPI-Packages">Python/PyPI Packages</a><a id="Python/PyPI-Packages-1"></a><a class="docs-heading-anchor-permalink" href="#Python/PyPI-Packages" title="Permalink"></a></h2><p>PyPI package names are normalized (lowercase, underscores to hyphens):</p><pre><code class="language-julia hljs"># Common packages
+purl&quot;pkg:pypi/requests@2.28.0&quot;
+purl&quot;pkg:pypi/numpy@1.24.0&quot;
+purl&quot;pkg:pypi/pandas@2.0.0&quot;
+
+# Name normalization
+parse(PackageURL, &quot;pkg:pypi/Django@4.1&quot;).name       # &quot;django&quot;
+parse(PackageURL, &quot;pkg:pypi/Flask_RESTful&quot;).name    # &quot;flask-restful&quot;
+
+# With qualifiers
+purl&quot;pkg:pypi/tensorflow@2.12.0?os=linux&amp;arch=x86_64&quot;</code></pre><h2 id="Maven-Packages"><a class="docs-heading-anchor" href="#Maven-Packages">Maven Packages</a><a id="Maven-Packages-1"></a><a class="docs-heading-anchor-permalink" href="#Maven-Packages" title="Permalink"></a></h2><p>Maven PURLs use namespace for group ID:</p><pre><code class="language-julia hljs"># Apache Commons
+purl&quot;pkg:maven/org.apache.commons/commons-lang3@3.12.0&quot;
+purl&quot;pkg:maven/org.apache.logging.log4j/log4j-core@2.20.0&quot;
+
+# Spring Framework
+purl&quot;pkg:maven/org.springframework/spring-core@6.0.0&quot;
+purl&quot;pkg:maven/org.springframework.boot/spring-boot@3.0.0&quot;
+
+# With classifier qualifier
+purl&quot;pkg:maven/org.apache.commons/commons-lang3@3.12.0?classifier=sources&quot;
+purl&quot;pkg:maven/org.apache.commons/commons-lang3@3.12.0?type=pom&quot;
+
+# Access components
+purl = parse(PackageURL, &quot;pkg:maven/org.apache.commons/commons-lang3@3.12.0&quot;)
+purl.namespace  # &quot;org.apache.commons&quot;
+purl.name       # &quot;commons-lang3&quot;</code></pre><h2 id="Cargo-(Rust)-Packages"><a class="docs-heading-anchor" href="#Cargo-(Rust)-Packages">Cargo (Rust) Packages</a><a id="Cargo-(Rust)-Packages-1"></a><a class="docs-heading-anchor-permalink" href="#Cargo-(Rust)-Packages" title="Permalink"></a></h2><pre><code class="language-julia hljs"># Popular crates
+purl&quot;pkg:cargo/serde@1.0.0&quot;
+purl&quot;pkg:cargo/tokio@1.28.0&quot;
+purl&quot;pkg:cargo/clap@4.3.0&quot;
+
+# With subpath
+purl&quot;pkg:cargo/serde@1.0.0#derive&quot;
+
+# With features qualifier
+purl&quot;pkg:cargo/tokio@1.28.0?features=full&quot;</code></pre><h2 id="Go-Modules"><a class="docs-heading-anchor" href="#Go-Modules">Go Modules</a><a id="Go-Modules-1"></a><a class="docs-heading-anchor-permalink" href="#Go-Modules" title="Permalink"></a></h2><p>Go module PURLs typically include the full module path:</p><pre><code class="language-julia hljs"># Standard modules
+purl&quot;pkg:golang/github.com/gin-gonic/gin@1.9.0&quot;
+purl&quot;pkg:golang/github.com/gorilla/mux@1.8.0&quot;
+
+# Google modules
+purl&quot;pkg:golang/google.golang.org/grpc@1.55.0&quot;
+
+# With subpath for specific packages within module
+purl&quot;pkg:golang/github.com/aws/aws-sdk-go@1.44.0#service/s3&quot;</code></pre><h2 id="NuGet-(.NET)-Packages"><a class="docs-heading-anchor" href="#NuGet-(.NET)-Packages">NuGet (.NET) Packages</a><a id="NuGet-(.NET)-Packages-1"></a><a class="docs-heading-anchor-permalink" href="#NuGet-(.NET)-Packages" title="Permalink"></a></h2><pre><code class="language-julia hljs"># Common packages
+purl&quot;pkg:nuget/Newtonsoft.Json@13.0.3&quot;
+purl&quot;pkg:nuget/Microsoft.EntityFrameworkCore@7.0.0&quot;
+purl&quot;pkg:nuget/Serilog@3.0.0&quot;
+
+# With target framework
+purl&quot;pkg:nuget/Newtonsoft.Json@13.0.3?framework=net6.0&quot;</code></pre><h2 id="Docker-Images"><a class="docs-heading-anchor" href="#Docker-Images">Docker Images</a><a id="Docker-Images-1"></a><a class="docs-heading-anchor-permalink" href="#Docker-Images" title="Permalink"></a></h2><pre><code class="language-julia hljs"># Docker Hub official images
+purl&quot;pkg:docker/library/nginx@1.24&quot;
+purl&quot;pkg:docker/library/postgres@15&quot;
+
+# Docker Hub user images
+purl&quot;pkg:docker/myuser/myapp@1.0.0&quot;
+
+# With registry qualifier
+purl&quot;pkg:docker/myimage@1.0.0?repository_url=ghcr.io&quot;</code></pre><h2 id="GitHub-Repositories"><a class="docs-heading-anchor" href="#GitHub-Repositories">GitHub Repositories</a><a id="GitHub-Repositories-1"></a><a class="docs-heading-anchor-permalink" href="#GitHub-Repositories" title="Permalink"></a></h2><pre><code class="language-julia hljs"># Reference specific commits
+purl&quot;pkg:github/JuliaLang/julia@v1.9.0&quot;
+purl&quot;pkg:github/microsoft/vscode@1.78.0&quot;
+
+# With subpath
+purl&quot;pkg:github/JuliaLang/julia@v1.9.0#base/strings&quot;</code></pre><h2 id="Constructing-PURLs-Programmatically"><a class="docs-heading-anchor" href="#Constructing-PURLs-Programmatically">Constructing PURLs Programmatically</a><a id="Constructing-PURLs-Programmatically-1"></a><a class="docs-heading-anchor-permalink" href="#Constructing-PURLs-Programmatically" title="Permalink"></a></h2><p>Instead of parsing strings, you can construct PURLs directly:</p><pre><code class="language-julia hljs">using PURL
+
+# Basic PURL
+purl = PackageURL(&quot;npm&quot;, nothing, &quot;lodash&quot;, &quot;4.17.21&quot;, nothing, nothing)
+string(purl)  # &quot;pkg:npm/lodash@4.17.21&quot;
+
+# With namespace
+purl = PackageURL(&quot;npm&quot;, &quot;@angular&quot;, &quot;core&quot;, &quot;15.0.0&quot;, nothing, nothing)
+string(purl)  # &quot;pkg:npm/%40angular/core@15.0.0&quot;
+
+# With qualifiers
+purl = PackageURL(
+    &quot;maven&quot;,
+    &quot;org.apache.commons&quot;,
+    &quot;commons-lang3&quot;,
+    &quot;3.12.0&quot;,
+    Dict(&quot;classifier&quot; =&gt; &quot;sources&quot;),
+    nothing
+)
+string(purl)  # &quot;pkg:maven/org.apache.commons/commons-lang3@3.12.0?classifier=sources&quot;</code></pre><h2 id="Safe-Parsing"><a class="docs-heading-anchor" href="#Safe-Parsing">Safe Parsing</a><a id="Safe-Parsing-1"></a><a class="docs-heading-anchor-permalink" href="#Safe-Parsing" title="Permalink"></a></h2><p>Use <code>tryparse</code> for graceful error handling:</p><pre><code class="language-julia hljs"># Returns nothing on parse failure
+result = tryparse(PackageURL, &quot;invalid-purl&quot;)
+result === nothing  # true
+
+# Use in conditional logic
+purl_string = &quot;pkg:npm/lodash@4.17.21&quot;
+if (purl = tryparse(PackageURL, purl_string)) !== nothing
+    println(&quot;Package: $(purl.name)&quot;)
+else
+    println(&quot;Invalid PURL&quot;)
+end</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../components/">« PURL Components</a><a class="docs-footer-nextpage" href="../integration/">Integration Guide »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Friday 23 January 2026 17:31">Friday 23 January 2026</span>. Using Julia version 1.12.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
