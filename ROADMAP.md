@@ -179,12 +179,24 @@ purl = PackageURL("maven", "org.apache/commons", "lang", nothing, nothing, nothi
 - [x] Add golang type rules
 - [x] JSON-based type definition loading (Feature 007)
 
-### v0.3.1 - Official Type Definition Format Support
-- [ ] Support official ECMA-427 type definition schema format from purl-spec repository
+### v0.3.1 - Official Type Definition Format Support ✓
+- [x] Support official ECMA-427 type definition schema format from purl-spec repository
   - Parse `name_definition.case_sensitive` → lowercase normalization
   - Parse `name_definition.normalization_rules` text patterns
   - Parse `qualifiers_definition` array format
-- [ ] Test against official purl-spec type definitions (cargo, pypi, npm, maven, etc.)
+- [x] Test against official purl-spec type definitions (cargo, pypi, npm, maven, etc.)
+
+### v0.3.2 - Official Type Test Coverage ✓
+- [x] All 37 official purl-spec type definitions verified to load correctly
+- [x] Normalization derivation tests:
+  - 15 lowercase types verified (alpm, apk, bitbucket, bitnami, composer, deb, github, golang, hex, luarocks, npm, oci, otp, pub, pypi)
+  - 22 case-sensitive types verified (bazel, cargo, cocoapods, conan, conda, cpan, cran, docker, gem, generic, hackage, huggingface, julia, maven, mlflow, nuget, opam, qpkg, rpm, swid, swift, yocto)
+  - pypi underscore replacement verified
+- [x] Qualifier extraction tests (maven, pypi, julia, swid)
+- [x] JSONSchema validation against official purl-type-definition schema
+  - 34 types pass schema validation
+  - 3 types have upstream schema issues (bazel, julia, yocto) - see UPSTREAM-ISSUES.md
+- [x] CONTRIBUTING.md with type definition maintenance guide
 
 ### v0.4.0 - Pre Release
 - [ ] Full ECMA-427 compliance verified
