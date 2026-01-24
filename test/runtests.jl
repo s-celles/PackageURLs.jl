@@ -1,6 +1,8 @@
 using Test
 using PURL
 using Aqua
+using JSONSchema
+using JSON3
 
 @testset "PURL.jl" begin
     include("test_types.jl")

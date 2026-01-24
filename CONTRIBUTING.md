@@ -152,6 +152,82 @@ PURL.jl/
 └── Project.toml         # Package metadata
 ```
 
+## Type Definition Maintenance
+
+PURL.jl uses official type definitions from the [purl-spec](https://github.com/package-url/purl-spec) repository. These definitions follow the ECMA-427 schema.
+
+### Updating Type Definitions
+
+1. Run the download script to fetch the latest definitions:
+   ```bash
+   julia --project scripts/download_type_definitions.jl
+   ```
+
+2. Run tests to verify all definitions load correctly:
+   ```bash
+   julia --project -e 'using Pkg; Pkg.test()'
+   ```
+
+3. Check for schema validation issues (see `UPSTREAM-ISSUES.md` for known issues)
+
+### Adding New Types from purl-spec
+
+When new types are added to purl-spec:
+
+1. Add the type name to `OFFICIAL_TYPES` in `scripts/download_type_definitions.jl`
+
+2. Run the download script:
+   ```bash
+   julia --project scripts/download_type_definitions.jl
+   ```
+
+3. Verify the type loads correctly:
+   ```julia
+   using PURL
+   def = load_type_definition("data/type_definitions/newtype.json")
+   ```
+
+4. Add specific normalization tests if the type has special rules
+
+5. Update `test/test_type_definitions.jl` to include the new type
+
+### Type Definition Schema
+
+Type definitions are validated against the official schema:
+`https://packageurl.org/schemas/purl-type-definition.schema-1.0.json`
+
+Key fields extracted by `load_type_definition()`:
+- `type`: The PURL type identifier
+- `description`: Human-readable description
+- `name_definition.case_sensitive`: Determines if names need lowercase normalization
+- `name_definition.normalization_rules`: Additional normalization (e.g., underscore replacement)
+- `qualifiers_definition`: List of known/required qualifiers
+
+## Contributing Upstream to purl-spec
+
+The [purl-spec repository](https://github.com/package-url/purl-spec) is the source of truth for PURL type definitions.
+
+### Proposing a New Type
+
+1. Fork the purl-spec repository
+2. Add the type definition in `types/` following the schema
+3. Include:
+   - Type name and description
+   - Namespace, name, version definitions
+   - Qualifier definitions if applicable
+   - Example PURLs
+4. Submit a pull request with rationale
+
+### Julia PURL Type
+
+The Julia PURL type was added via [purl-spec#540](https://github.com/package-url/purl-spec/pull/540).
+
+Example Julia PURLs:
+```
+pkg:julia/Dates@1.9.0?uuid=ade2ca70-3891-5945-98fb-dc099432e06a
+pkg:julia/PURL@0.1.0?uuid=c2271b70-7219-4bda-bcc3-62ec08ead5b7
+```
+
 ## Adding Support for New PURL Types
 
 To add type-specific validation for a new package ecosystem:

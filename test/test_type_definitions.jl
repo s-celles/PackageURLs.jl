@@ -3,6 +3,14 @@
 # Access internal functions for testing
 using PURL: normalize_name, validate_purl
 
+# Schema validation for official type definitions (Feature 009)
+const PURL_TYPE_SCHEMA_PATH = joinpath(@__DIR__, "fixtures", "schemas", "purl-type-definition.schema-1.0.json")
+const PURL_TYPE_SCHEMA = if isfile(PURL_TYPE_SCHEMA_PATH)
+    JSONSchema.Schema(JSON3.read(read(PURL_TYPE_SCHEMA_PATH, String)))
+else
+    nothing
+end
+
 @testset "Type Definition Loading" begin
 
     # T010: Tests for load_type_definition() - ECMA-427 format
@@ -237,6 +245,169 @@ end
 
     # Clean up after all tests
     clear_type_registry!()
+end
+
+# Tests for All Official Type Definitions (Feature 009)
+@testset "All Official Type Definitions Load" begin
+    types_dir = joinpath(@__DIR__, "..", "data", "type_definitions")
+
+    # All 37 official types from purl-spec
+    expected_types = [
+        "alpm", "apk", "bazel", "bitbucket", "bitnami", "cargo", "cocoapods",
+        "composer", "conan", "conda", "cpan", "cran", "deb", "docker", "gem",
+        "generic", "github", "golang", "hackage", "hex", "huggingface", "julia",
+        "luarocks", "maven", "mlflow", "npm", "nuget", "oci", "opam", "otp",
+        "pub", "pypi", "qpkg", "rpm", "swid", "swift", "yocto"
+    ]
+
+    # T003: Verify all 37 types load successfully
+    @testset "All types load" begin
+        for type_name in expected_types
+            path = joinpath(types_dir, "$type_name.json")
+            @testset "$type_name loads correctly" begin
+                @test isfile(path)
+                def = load_type_definition(path)
+                @test def.type == type_name
+            end
+        end
+    end
+
+    # T004: Verify each loaded type has non-empty description
+    @testset "All types have description" begin
+        for type_name in expected_types
+            path = joinpath(types_dir, "$type_name.json")
+            if isfile(path)
+                def = load_type_definition(path)
+                @test def.description !== nothing
+                @test !isempty(def.description)
+            end
+        end
+    end
+
+    # Schema validation: Verify all type definitions conform to official schema
+    # See UPSTREAM-ISSUES.md for details on known schema issues in purl-spec
+    @testset "All types conform to schema" begin
+        if PURL_TYPE_SCHEMA !== nothing
+            # Types with known upstream schema issues (see UPSTREAM-ISSUES.md)
+            known_schema_issues = Set(["bazel", "julia", "yocto"])
+
+            for type_name in expected_types
+                path = joinpath(types_dir, "$type_name.json")
+                if isfile(path)
+                    @testset "$type_name validates against schema" begin
+                        json_data = JSON3.read(read(path, String))
+                        if type_name in known_schema_issues
+                            @test_broken isvalid(PURL_TYPE_SCHEMA, json_data)
+                        else
+                            @test isvalid(PURL_TYPE_SCHEMA, json_data)
+                        end
+                    end
+                end
+            end
+        else
+            @test_skip "Schema file not found at $PURL_TYPE_SCHEMA_PATH"
+        end
+    end
+end
+
+@testset "Normalization Derivation" begin
+    types_dir = joinpath(@__DIR__, "..", "data", "type_definitions")
+
+    # T005: Types that should have lowercase normalization (case_sensitive: false)
+    lowercase_types = [
+        "alpm", "apk", "bitbucket", "bitnami", "composer",
+        "deb", "github", "golang", "hex", "luarocks",
+        "npm", "oci", "otp", "pub", "pypi"
+    ]
+
+    @testset "Lowercase types have 'lowercase' normalization" begin
+        for type_name in lowercase_types
+            path = joinpath(types_dir, "$type_name.json")
+            if isfile(path)
+                @testset "$type_name has lowercase" begin
+                    def = load_type_definition(path)
+                    @test "lowercase" in def.name_normalize
+                end
+            end
+        end
+    end
+
+    # T006: Types that should be case-sensitive (case_sensitive: true)
+    case_sensitive_types = [
+        "bazel", "cargo", "cocoapods", "conan", "conda", "cpan", "cran",
+        "docker", "gem", "generic", "hackage", "huggingface", "julia",
+        "maven", "mlflow", "nuget", "opam", "qpkg", "rpm", "swid", "swift", "yocto"
+    ]
+
+    @testset "Case-sensitive types have empty name_normalize" begin
+        for type_name in case_sensitive_types
+            path = joinpath(types_dir, "$type_name.json")
+            if isfile(path)
+                @testset "$type_name is case-sensitive" begin
+                    def = load_type_definition(path)
+                    @test !("lowercase" in def.name_normalize)
+                end
+            end
+        end
+    end
+
+    # T007: pypi specifically should have replace_underscore
+    @testset "pypi has replace_underscore" begin
+        pypi_path = joinpath(types_dir, "pypi.json")
+        if isfile(pypi_path)
+            def = load_type_definition(pypi_path)
+            @test "replace_underscore" in def.name_normalize
+        end
+    end
+end
+
+@testset "Qualifier Extraction" begin
+    types_dir = joinpath(@__DIR__, "..", "data", "type_definitions")
+
+    # T009: maven qualifiers (classifier, type)
+    @testset "maven qualifiers" begin
+        maven_path = joinpath(types_dir, "maven.json")
+        if isfile(maven_path)
+            def = load_type_definition(maven_path)
+            @test "classifier" in def.known_qualifiers
+            @test "type" in def.known_qualifiers
+        end
+    end
+
+    # T010: pypi qualifiers (file_name)
+    @testset "pypi qualifiers" begin
+        pypi_path = joinpath(types_dir, "pypi.json")
+        if isfile(pypi_path)
+            def = load_type_definition(pypi_path)
+            @test "file_name" in def.known_qualifiers
+        end
+    end
+
+    # T011: julia qualifiers (uuid)
+    @testset "julia qualifiers" begin
+        julia_path = joinpath(types_dir, "julia.json")
+        if isfile(julia_path)
+            def = load_type_definition(julia_path)
+            @test "uuid" in def.known_qualifiers
+        end
+    end
+
+    # T012: swid qualifiers - validate against actual JSON definition
+    @testset "swid qualifiers" begin
+        swid_path = joinpath(types_dir, "swid.json")
+        if isfile(swid_path)
+            # Read raw JSON to get expected qualifiers dynamically
+            json_data = JSON3.read(read(swid_path, String))
+            expected_qualifiers = [String(q.key) for q in json_data.qualifiers_definition]
+
+            # Verify load_type_definition extracts them correctly
+            def = load_type_definition(swid_path)
+            @test length(def.known_qualifiers) == length(expected_qualifiers)
+            for q in expected_qualifiers
+                @test q in def.known_qualifiers
+            end
+        end
+    end
 end
 
 # Tests for Official ECMA-427 Type Definitions (Feature 008)

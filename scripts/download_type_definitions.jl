@@ -15,27 +15,45 @@ using Downloads
 const PURL_SPEC_BASE = "https://raw.githubusercontent.com/package-url/purl-spec/main/types"
 const OUTPUT_DIR = joinpath(@__DIR__, "..", "data", "type_definitions")
 
-# Official PURL types to download
+# Official PURL types to download (37 types from purl-spec repository)
 const OFFICIAL_TYPES = [
+    "alpm",
+    "apk",
+    "bazel",
+    "bitbucket",
+    "bitnami",
     "cargo",
+    "cocoapods",
     "composer",
+    "conan",
     "conda",
     "cpan",
     "cran",
     "deb",
     "docker",
     "gem",
+    "generic",
     "github",
     "golang",
     "hackage",
     "hex",
+    "huggingface",
+    "julia",
+    "luarocks",
     "maven",
+    "mlflow",
     "npm",
     "nuget",
     "oci",
+    "opam",
+    "otp",
     "pub",
     "pypi",
-    "swift"
+    "qpkg",
+    "rpm",
+    "swid",
+    "swift",
+    "yocto"
 ]
 
 """
