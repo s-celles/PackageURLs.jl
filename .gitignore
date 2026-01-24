@@ -74,6 +74,10 @@ benchmark/*.json
 !scripts/
 !scripts/**
 
+# Specifications
+!specs/
+!specs/**
+
 # Interoperability tests
 !test/interop/
 !test/interop/**/*.jl
