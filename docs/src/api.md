@@ -19,6 +19,19 @@ PURLError
 @purl_str
 ```
 
+## Type Definitions
+
+Types and functions for loading and registering custom type definitions from JSON.
+
+```@docs
+TypeDefinition
+JsonTypeRules
+load_type_definition
+register_type_definition!
+list_type_definitions
+clear_type_registry!
+```
+
 ## Parsing and Serialization
 
 The following standard Julia functions work with `PackageURL`:

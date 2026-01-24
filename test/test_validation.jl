@@ -126,4 +126,75 @@
         @test purl.type == "npm"
     end
 
+    @testset "Maven type" begin
+        # Maven PURLs: groupId maps to namespace, artifactId maps to name
+        purl = parse(PackageURL, "pkg:maven/org.apache.commons/commons-lang3@3.12.0")
+        @test purl.type == "maven"
+        @test purl.namespace == "org.apache.commons"
+        @test purl.name == "commons-lang3"
+        @test purl.version == "3.12.0"
+
+        # With qualifiers (classifier and type)
+        purl = parse(PackageURL, "pkg:maven/org.apache.commons/commons-lang3@3.12.0?classifier=sources&type=jar")
+        @test purl.qualifiers["classifier"] == "sources"
+        @test purl.qualifiers["type"] == "jar"
+
+        # Roundtrip
+        @test string(purl) == "pkg:maven/org.apache.commons/commons-lang3@3.12.0?classifier=sources&type=jar"
+
+        # Maven without namespace (artifactId only) is valid
+        purl = parse(PackageURL, "pkg:maven/junit@4.13.2")
+        @test purl.namespace === nothing
+        @test purl.name == "junit"
+    end
+
+    @testset "NuGet type" begin
+        # NuGet: package names are case-insensitive, normalized to lowercase
+        purl = parse(PackageURL, "pkg:nuget/Newtonsoft.Json@13.0.1")
+        @test purl.name == "newtonsoft.json"
+
+        # Already lowercase unchanged
+        purl = parse(PackageURL, "pkg:nuget/newtonsoft.json@13.0.1")
+        @test purl.name == "newtonsoft.json"
+
+        # Equality after normalization
+        purl1 = parse(PackageURL, "pkg:nuget/Newtonsoft.Json@13.0.1")
+        purl2 = parse(PackageURL, "pkg:nuget/newtonsoft.json@13.0.1")
+        @test purl1 == purl2
+
+        # Roundtrip produces lowercase
+        purl = parse(PackageURL, "pkg:nuget/Newtonsoft.Json@13.0.1")
+        @test string(purl) == "pkg:nuget/newtonsoft.json@13.0.1"
+
+        # Mixed case with dots
+        purl = parse(PackageURL, "pkg:nuget/Microsoft.Extensions.Logging@7.0.0")
+        @test purl.name == "microsoft.extensions.logging"
+    end
+
+    @testset "Golang type" begin
+        # Go module: namespace is module path, name is last segment
+        purl = parse(PackageURL, "pkg:golang/github.com/gorilla/mux@v1.8.0")
+        @test purl.type == "golang"
+        @test purl.namespace == "github.com/gorilla"
+        @test purl.name == "mux"
+
+        # Name normalization to lowercase
+        purl = parse(PackageURL, "pkg:golang/github.com/Gorilla/Mux@v1.8.0")
+        @test purl.name == "mux"
+
+        # Standard library style package
+        purl = parse(PackageURL, "pkg:golang/encoding/json")
+        @test purl.namespace == "encoding"
+        @test purl.name == "json"
+
+        # Roundtrip
+        purl = parse(PackageURL, "pkg:golang/github.com/gorilla/mux@v1.8.0")
+        @test string(purl) == "pkg:golang/github.com/gorilla/mux@v1.8.0"
+
+        # Longer module path
+        purl = parse(PackageURL, "pkg:golang/golang.org/x/crypto/ssh@v0.14.0")
+        @test purl.namespace == "golang.org/x/crypto"
+        @test purl.name == "ssh"
+    end
+
 end

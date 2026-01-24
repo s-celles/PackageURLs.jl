@@ -64,6 +64,12 @@ benchmark/*.json
 !test/fixtures/
 !test/fixtures/*.jl
 !test/fixtures/*.json
+!test/fixtures/type_definitions/
+!test/fixtures/type_definitions/*.json
+
+# Scripts
+!scripts/
+!scripts/**
 
 # Interoperability tests
 !test/interop/
