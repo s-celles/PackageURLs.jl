@@ -19,6 +19,16 @@ PURLError
 @purl_str
 ```
 
+## Bundled Artifact Paths
+
+Functions to access the bundled purl-spec v1.0.0 artifact containing official type definitions and test fixtures.
+
+```@docs
+purl_spec_path
+type_definitions_path
+test_fixtures_path
+```
+
 ## Type Definitions
 
 Types and functions for loading and registering custom type definitions from JSON.
