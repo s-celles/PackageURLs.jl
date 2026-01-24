@@ -78,7 +78,7 @@ struct PackageURL
         if !isletter(first(type))
             throw(PURLError("type must start with a letter"))
         end
-        if !all(c -> islowercase(c) || isdigit(c) || c in ".+-", type)
+        if !all(c -> islowercase(c) || isdigit(c) || c in ".-", type)
             throw(PURLError("type must be lowercase alphanumeric with .+-"))
         end
 

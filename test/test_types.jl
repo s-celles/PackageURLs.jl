@@ -58,8 +58,10 @@
         # Empty name should throw
         @test_throws PURLError PackageURL("julia", nothing, "")
 
-        # Valid edge cases
-        @test PackageURL("c++", nothing, "boost").type == "c++"
+        # Plus sign not allowed in type per ECMA-427 Section 5.6.2
+        @test_throws PURLError PackageURL("c++", nothing, "boost")
+
+        # Valid edge cases: period and dash are allowed
         @test PackageURL("a.b-c", nothing, "test").type == "a.b-c"
     end
 

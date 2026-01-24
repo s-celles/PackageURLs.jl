@@ -167,12 +167,12 @@ purl = PackageURL("maven", "org.apache/commons", "lang", nothing, nothing, nothi
 ## Version Plan
 
 ### v0.2.0 - Full ECMA-427 Compliance
-- [ ] Fix scheme slash handling (#1)
-- [ ] Fix type character validation (#2)
-- [ ] Fix colon encoding (#3)
+- [x] Fix scheme slash handling (#1)
+- [x] Fix type character validation (#2)
+- [x] Fix colon encoding (#3)
 - [ ] Fix empty qualifier handling (#4)
 - [ ] Fix namespace segment encoding (#5)
-- [ ] Add compliance test cases
+- [x] Add compliance test cases
 - [ ] Update documentation
 
 ### v0.3.0 - Extended Type Support

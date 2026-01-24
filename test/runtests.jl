@@ -9,6 +9,7 @@ using Aqua
     include("test_parse.jl")
     include("test_validation.jl")
     include("test_fixtures.jl")
+    include("test_compliance.jl")
 
     @testset "Aqua.jl Quality Assurance" begin
         Aqua.test_all(PURL;

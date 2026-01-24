@@ -27,8 +27,9 @@ function Base.parse(::Type{PackageURL}, s::AbstractString)
         throw(PURLError("PURL must start with 'pkg:'", 1))
     end
 
-    # Remove scheme
+    # Remove scheme and strip optional slashes per ECMA-427 5.6.1
     remainder = s[length(PURL_SCHEME)+1:end]
+    remainder = lstrip(remainder, '/')
     isempty(remainder) && throw(PURLError("type is required", length(PURL_SCHEME)+1))
 
     # Extract subpath (after #)
@@ -74,7 +75,7 @@ function Base.parse(::Type{PackageURL}, s::AbstractString)
     if isempty(purl_type) || !isletter(first(purl_type))
         throw(PURLError("type must start with a letter", length(PURL_SCHEME)+1))
     end
-    if !all(c -> islowercase(c) || isdigit(c) || c in ".+-", purl_type)
+    if !all(c -> islowercase(c) || isdigit(c) || c in ".-", purl_type)
         throw(PURLError("type contains invalid characters", length(PURL_SCHEME)+1))
     end
 

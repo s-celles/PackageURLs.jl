@@ -2,7 +2,7 @@
 
 # Characters that don't need encoding in various PURL components
 # Per PURL spec: unreserved characters are A-Z a-z 0-9 - . _ ~
-const SAFE_CHARS_GENERAL = Set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_~")
+const SAFE_CHARS_GENERAL = Set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_~:")
 const SAFE_CHARS_VERSION = Set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_~+")
 # Qualifier values can contain colons (used in checksums like sha256:xxxx)
 const SAFE_CHARS_QUALIFIER_VALUE = Set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_~:")
