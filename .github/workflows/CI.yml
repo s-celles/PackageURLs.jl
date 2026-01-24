@@ -52,6 +52,9 @@ jobs:
 
       - uses: julia-actions/julia-buildpkg@v1
 
+      - name: Download type definitions
+        run: julia --project -e 'include("scripts/download_type_definitions.jl")'
+
       - uses: julia-actions/julia-runtest@v1
 
       - uses: julia-actions/julia-processcoverage@v1
