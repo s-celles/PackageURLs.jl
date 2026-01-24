@@ -68,6 +68,31 @@ Scoped packages use @scope as namespace.
 struct NpmTypeRules <: TypeRules end
 
 """
+    MavenTypeRules <: TypeRules
+
+Rules for Maven (Java/JVM) PURLs.
+GroupId maps to namespace, artifactId maps to name.
+Maven coordinates are case-sensitive.
+"""
+struct MavenTypeRules <: TypeRules end
+
+"""
+    NuGetTypeRules <: TypeRules
+
+Rules for NuGet (.NET) PURLs.
+Package names are case-insensitive and normalized to lowercase.
+"""
+struct NuGetTypeRules <: TypeRules end
+
+"""
+    GolangTypeRules <: TypeRules
+
+Rules for Go module PURLs.
+Module paths are case-insensitive and normalized to lowercase.
+"""
+struct GolangTypeRules <: TypeRules end
+
+"""
     type_rules(type::AbstractString) -> TypeRules
 
 Get the type-specific rules for a PURL type.
@@ -78,6 +103,9 @@ function type_rules(purl_type::AbstractString)
     t == "pypi" && return PyPITypeRules()
     t == "julia" && return JuliaTypeRules()
     t == "npm" && return NpmTypeRules()
+    t == "maven" && return MavenTypeRules()
+    t == "nuget" && return NuGetTypeRules()
+    t == "golang" && return GolangTypeRules()
     return GenericTypeRules()
 end
 
@@ -139,3 +167,15 @@ end
 # npm rules (T075)
 normalize_name(::NpmTypeRules, name::AbstractString) = String(name)
 validate_purl(::NpmTypeRules, purl) = nothing  # namespace handling is automatic
+
+# Maven rules - no normalization needed (case-sensitive)
+normalize_name(::MavenTypeRules, name::AbstractString) = String(name)
+validate_purl(::MavenTypeRules, purl) = nothing
+
+# NuGet rules - lowercase normalization
+normalize_name(::NuGetTypeRules, name::AbstractString) = lowercase(name)
+validate_purl(::NuGetTypeRules, purl) = nothing
+
+# Golang rules - lowercase normalization
+normalize_name(::GolangTypeRules, name::AbstractString) = lowercase(name)
+validate_purl(::GolangTypeRules, purl) = nothing

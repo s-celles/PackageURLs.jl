@@ -176,12 +176,12 @@ purl = PackageURL("maven", "org.apache/commons", "lang", nothing, nothing, nothi
 - [ ] Update documentation
 
 ### v0.3.0 - Extended Type Support
-- [ ] Add maven type rules
-- [ ] Add nuget type rules
-- [ ] Add golang type rules
+- [x] Add maven type rules
+- [x] Add nuget type rules
+- [x] Add golang type rules
 - [ ] Consider JSON-based type definition loading
 
-### v1.0.0 - Stable Release
+### v0.4.0 - Pre Release
 - [ ] Full ECMA-427 compliance verified
 - [ ] Comprehensive type support
 - [ ] Production-hardened with extensive testing
