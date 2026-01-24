@@ -179,12 +179,12 @@ purl = PackageURL("maven", "org.apache/commons", "lang", nothing, nothing, nothi
 - [x] Add golang type rules
 - [x] JSON-based type definition loading (Feature 007)
 
-### v0.3.1 - Official Type Definition Format Support
-- [ ] Support official ECMA-427 type definition schema format from purl-spec repository
+### v0.3.1 - Official Type Definition Format Support ✓
+- [x] Support official ECMA-427 type definition schema format from purl-spec repository
   - Parse `name_definition.case_sensitive` → lowercase normalization
   - Parse `name_definition.normalization_rules` text patterns
   - Parse `qualifiers_definition` array format
-- [ ] Test against official purl-spec type definitions (cargo, pypi, npm, maven, etc.)
+- [x] Test against official purl-spec type definitions (cargo, pypi, npm, maven, etc.)
 
 ### v0.4.0 - Pre Release
 - [ ] Full ECMA-427 compliance verified

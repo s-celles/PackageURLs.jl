@@ -61,22 +61,27 @@ end
 """
     load_type_definition(path::AbstractString) -> TypeDefinition
 
-Load a type definition from a JSON file.
+Load a type definition from a JSON file per ECMA-427 Section 6 schema.
 
-The JSON file should have the following structure:
+# ECMA-427 Format
 ```json
 {
-    "type": "cargo",
-    "description": "Rust crates from crates.io",
-    "name": {
-        "normalize": ["lowercase"]
+    "type": "pypi",
+    "description": "PyPI packages",
+    "name_definition": {
+        "case_sensitive": false,
+        "normalization_rules": ["Replace underscore _ with dash -"]
     },
-    "qualifiers": {
-        "required": [],
-        "known": ["arch", "os"]
-    }
+    "qualifiers_definition": [
+        {"key": "file_name", "requirement": "optional"}
+    ]
 }
 ```
+
+# Normalization Derivation
+- `name_definition.case_sensitive: false` → "lowercase" normalization
+- `normalization_rules` with "underscore" AND "dash" → "replace_underscore"
+- `normalization_rules` with "dot" AND "dash"/"hyphen" → "replace_dot"
 
 # Arguments
 - `path`: Path to the JSON file
@@ -90,7 +95,7 @@ The JSON file should have the following structure:
 
 # Example
 ```julia
-def = load_type_definition("path/to/cargo.json")
+def = load_type_definition("data/type_definitions/pypi.json")
 register_type_definition!(def)
 ```
 """
@@ -116,27 +121,42 @@ function load_type_definition(path::AbstractString)
         description = String(description)
     end
 
-    # Extract normalization rules from nested structure
     name_normalize = String[]
-    if haskey(json, :name) && haskey(json[:name], :normalize)
-        for op in json[:name][:normalize]
-            push!(name_normalize, String(op))
+    required_qualifiers = String[]
+    known_qualifiers = String[]
+
+    # Parse name_definition per ECMA-427 Section 6
+    if haskey(json, :name_definition)
+        name_def = json[:name_definition]
+
+        # case_sensitive: false → lowercase normalization
+        if haskey(name_def, :case_sensitive) && name_def[:case_sensitive] == false
+            push!(name_normalize, "lowercase")
+        end
+
+        # Extract normalization from human-readable rules
+        if haskey(name_def, :normalization_rules)
+            for rule in name_def[:normalization_rules]
+                rule_lower = lowercase(String(rule))
+                if occursin("underscore", rule_lower) && occursin("dash", rule_lower)
+                    push!(name_normalize, "replace_underscore")
+                elseif occursin("dot", rule_lower) && (occursin("dash", rule_lower) || occursin("hyphen", rule_lower))
+                    push!(name_normalize, "replace_dot")
+                end
+            end
         end
     end
 
-    # Extract qualifier requirements from nested structure
-    required_qualifiers = String[]
-    known_qualifiers = String[]
-    if haskey(json, :qualifiers)
-        quals = json[:qualifiers]
-        if haskey(quals, :required)
-            for q in quals[:required]
-                push!(required_qualifiers, String(q))
-            end
-        end
-        if haskey(quals, :known)
-            for q in quals[:known]
-                push!(known_qualifiers, String(q))
+    # Parse qualifiers_definition per ECMA-427 Section 6
+    if haskey(json, :qualifiers_definition)
+        for qual_def in json[:qualifiers_definition]
+            if haskey(qual_def, :key)
+                key = String(qual_def[:key])
+                push!(known_qualifiers, key)
+
+                if haskey(qual_def, :requirement) && qual_def[:requirement] == "required"
+                    push!(required_qualifiers, key)
+                end
             end
         end
     end
