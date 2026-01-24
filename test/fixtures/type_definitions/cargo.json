@@ -1,0 +1,11 @@
+{
+    "type": "cargo",
+    "description": "Rust crates from crates.io",
+    "name": {
+        "normalize": ["lowercase"]
+    },
+    "qualifiers": {
+        "required": [],
+        "known": ["arch", "os", "features"]
+    }
+}

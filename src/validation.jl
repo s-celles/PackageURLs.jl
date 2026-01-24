@@ -97,9 +97,21 @@ struct GolangTypeRules <: TypeRules end
 
 Get the type-specific rules for a PURL type.
 Returns a TypeRules subtype instance for the given type string.
+
+Lookup priority:
+1. TYPE_REGISTRY (user-registered definitions)
+2. Hardcoded rules (built-in types)
+3. GenericTypeRules (fallback)
 """
 function type_rules(purl_type::AbstractString)
     t = lowercase(purl_type)
+
+    # Check TYPE_REGISTRY first (user-registered definitions take priority)
+    if haskey(TYPE_REGISTRY, t)
+        return JsonTypeRules(TYPE_REGISTRY[t])
+    end
+
+    # Fall back to hardcoded rules
     t == "pypi" && return PyPITypeRules()
     t == "julia" && return JuliaTypeRules()
     t == "npm" && return NpmTypeRules()

@@ -103,28 +103,26 @@ end
 
 ---
 
-### Low Priority / Future Enhancements
+### Completed Enhancements
 
-#### 6. Type Definition Schema Support (Section 6)
+#### 6. Type Definition Schema Support (Section 6) ✓
 
-The ECMA-427 specification defines a JSON Schema for PURL type definitions. Currently, type-specific rules are hardcoded for `pypi`, `julia`, and `npm`.
-
-**Potential enhancement:** Load type definitions from JSON files conforming to the PURL Type Definition Schema, enabling:
-- Dynamic addition of new type rules
-- Validation against official type definitions
-- Automatic normalization rule application
+**Implemented in Feature 007** - JSON-based type definition loading per ECMA-427 Section 6:
+- Load type definitions from JSON files conforming to the PURL Type Definition Schema
+- Runtime registration of custom type definitions via `register_type_definition!()`
+- Download script for official type definitions from purl-spec repository
+- Automatic normalization rule application (lowercase, replace_underscore, replace_dot, collapse_hyphens)
 
 ---
 
-#### 7. Additional Type-Specific Rules
+#### 7. Additional Type-Specific Rules ✓
 
-Implement normalization and validation rules for more package ecosystems:
-- `maven` - groupId/artifactId handling
-- `nuget` - case-insensitive names
-- `golang` - module path validation
-- `cargo` - Rust crate naming rules
-- `gem` - Ruby gem conventions
-- `deb` / `rpm` - Linux package specifics
+**Implemented in Feature 006** - Extended type support:
+- `maven` - groupId/artifactId handling (case-sensitive)
+- `nuget` - case-insensitive names (normalized to lowercase)
+- `golang` - module path validation (normalized to lowercase)
+
+Additional types can be added via JSON type definitions without code changes.
 
 ---
 
@@ -179,7 +177,14 @@ purl = PackageURL("maven", "org.apache/commons", "lang", nothing, nothing, nothi
 - [x] Add maven type rules
 - [x] Add nuget type rules
 - [x] Add golang type rules
-- [ ] Consider JSON-based type definition loading
+- [x] JSON-based type definition loading (Feature 007)
+
+### v0.3.1 - Official Type Definition Format Support
+- [ ] Support official ECMA-427 type definition schema format from purl-spec repository
+  - Parse `name_definition.case_sensitive` → lowercase normalization
+  - Parse `name_definition.normalization_rules` text patterns
+  - Parse `qualifiers_definition` array format
+- [ ] Test against official purl-spec type definitions (cargo, pypi, npm, maven, etc.)
 
 ### v0.4.0 - Pre Release
 - [ ] Full ECMA-427 compliance verified
