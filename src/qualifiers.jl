@@ -29,14 +29,13 @@ function parse_qualifiers(s::AbstractString)
         isempty(pair) && continue
         eqpos = findfirst('=', pair)
         if eqpos === nothing
-            # Key without value - treat as empty string value
-            key = decode_component(pair)
-            !validate_qualifier_key(key) && throw(PURLError("invalid qualifier key: '$key'"))
-            result[lowercase(key)] = ""
+            # Key without value - skip entirely per ECMA-427 5.6.6
+            continue
         else
             key = decode_component(pair[1:eqpos-1])
             value = decode_component(pair[eqpos+1:end])
             !validate_qualifier_key(key) && throw(PURLError("invalid qualifier key: '$key'"))
+            isempty(value) && continue  # Skip empty values per ECMA-427 5.6.6
             result[lowercase(key)] = value
         end
     end
@@ -59,6 +58,7 @@ function serialize_qualifiers(qualifiers::AbstractDict)
     parts = String[]
     for k in sorted_keys
         v = qualifiers[k]
+        isempty(string(v)) && continue  # Skip empty values per ECMA-427 5.6.6
         encoded_key = encode_component(lowercase(string(k)))
         # Use encode_qualifier_value to preserve colons in values
         encoded_value = encode_qualifier_value(string(v))

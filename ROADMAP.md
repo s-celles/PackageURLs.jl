@@ -170,8 +170,8 @@ purl = PackageURL("maven", "org.apache/commons", "lang", nothing, nothing, nothi
 - [x] Fix scheme slash handling (#1)
 - [x] Fix type character validation (#2)
 - [x] Fix colon encoding (#3)
-- [ ] Fix empty qualifier handling (#4)
-- [ ] Fix namespace segment encoding (#5)
+- [x] Fix empty qualifier handling (#4)
+- [x] Fix namespace segment encoding (#5)
 - [x] Add compliance test cases
 - [ ] Update documentation
 

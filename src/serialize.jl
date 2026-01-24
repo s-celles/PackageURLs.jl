@@ -17,9 +17,11 @@ function Base.string(purl::PackageURL)
     # Scheme and type
     print(io, "pkg:", purl.type)
 
-    # Namespace (if present)
+    # Namespace (if present) - encode each segment individually per ECMA-427 5.6.3
     if purl.namespace !== nothing && !isempty(purl.namespace)
-        print(io, "/", encode_component(purl.namespace))
+        segments = split(purl.namespace, '/')
+        encoded = join([encode_component(String(seg)) for seg in segments], "/")
+        print(io, "/", encoded)
     end
 
     # Name (always present)

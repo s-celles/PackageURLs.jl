@@ -43,4 +43,44 @@
         @test purl.namespace == "std:io"
         @test string(purl) == "pkg:generic/std:io/test"
     end
+
+    @testset "5.6.6 - Empty qualifier values" begin
+        # Empty value should be discarded
+        purl = parse(PackageURL, "pkg:npm/foo@1.0?empty=&valid=yes")
+        @test !haskey(purl.qualifiers, "empty")
+        @test purl.qualifiers["valid"] == "yes"
+
+        # All empty values should result in nothing or empty dict
+        purl = parse(PackageURL, "pkg:npm/foo@1.0?a=&b=")
+        @test purl.qualifiers === nothing || isempty(purl.qualifiers)
+
+        # Key without = should be discarded
+        purl = parse(PackageURL, "pkg:npm/foo@1.0?keyonly&valid=yes")
+        @test !haskey(purl.qualifiers, "keyonly")
+        @test purl.qualifiers["valid"] == "yes"
+
+        # Serialization should omit empty qualifiers
+        purl = PackageURL("npm", nothing, "foo", "1.0", Dict("valid" => "yes", "empty" => ""), nothing)
+        @test !occursin("empty", string(purl))
+        @test occursin("valid=yes", string(purl))
+    end
+
+    @testset "5.6.3 - Namespace segment encoding" begin
+        # Standard multi-segment namespace
+        purl = PackageURL("maven", "org.apache/commons", "lang", nothing, nothing, nothing)
+        @test string(purl) == "pkg:maven/org.apache/commons/lang"
+
+        # Namespace with special characters in segments
+        purl = PackageURL("generic", "my namespace/sub", "name", nothing, nothing, nothing)
+        @test string(purl) == "pkg:generic/my%20namespace/sub/name"
+
+        # Roundtrip preserves namespace
+        purl = parse(PackageURL, "pkg:maven/org.apache/commons/lang")
+        @test string(purl) == "pkg:maven/org.apache/commons/lang"
+
+        # Encoded input decoded and re-encoded correctly
+        purl = parse(PackageURL, "pkg:generic/my%20namespace/sub/name")
+        @test purl.namespace == "my namespace/sub"
+        @test string(purl) == "pkg:generic/my%20namespace/sub/name"
+    end
 end
