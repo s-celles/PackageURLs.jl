@@ -203,6 +203,16 @@ function load_type_definition(path::AbstractString)
         end
     end
 
+    # NuGet special case: The official definition has case_sensitive: true (case-preserving storage)
+    # but NuGet is case-insensitive for comparison and API calls require lowercase.
+    # The definition's note says: "Technically the name is case-preserving, but case-insensitive,
+    # and NuGet packages archives are case-preserving, while some NuGet API calls demand to
+    # lowercase the package name."
+    # Force lowercase normalization for PURL canonical form.
+    if lowercase(type_name) == "nuget" && !("lowercase" in name_normalize)
+        pushfirst!(name_normalize, "lowercase")
+    end
+
     # Parse qualifiers_definition per ECMA-427 Section 6
     if haskey(json, :qualifiers_definition)
         for qual_def in json[:qualifiers_definition]
@@ -264,6 +274,7 @@ end
 Validate that a PURL meets the requirements defined in the type definition.
 
 Checks that all required qualifiers are present.
+For Julia type, also validates UUID format per RFC 4122.
 """
 function validate_purl(rules::JsonTypeRules, purl)
     for req in rules.definition.required_qualifiers
@@ -271,6 +282,19 @@ function validate_purl(rules::JsonTypeRules, purl)
             throw(PURLError("$(rules.definition.type) PURL requires '$req' qualifier"))
         end
     end
+
+    # Julia type requires RFC 4122 UUID format validation
+    # The JSON definition only specifies uuid as required, but doesn't validate format
+    if lowercase(rules.definition.type) == "julia" && purl.qualifiers !== nothing && haskey(purl.qualifiers, "uuid")
+        uuid_str = purl.qualifiers["uuid"]
+        if !is_valid_rfc4122_uuid(uuid_str)
+            throw(PURLError(
+                "Invalid UUID format in 'uuid' qualifier: '$uuid_str' " *
+                "does not match RFC 4122 format (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)"
+            ))
+        end
+    end
+
     return nothing
 end
 

@@ -424,10 +424,12 @@ end
 
     # T006: Types that should be case-sensitive (case_sensitive: true)
     # Note: opam and yocto not in purl-spec v1.0.0
+    # Note: nuget has case_sensitive: true in the definition, but PURL.jl adds lowercase
+    # normalization because NuGet is case-insensitive for comparison and API calls.
     case_sensitive_types = [
         "bazel", "cargo", "cocoapods", "conan", "conda", "cpan", "cran",
         "docker", "gem", "generic", "hackage", "huggingface", "julia",
-        "maven", "mlflow", "nuget", "qpkg", "rpm", "swid", "swift"
+        "maven", "mlflow", "qpkg", "rpm", "swid", "swift"
     ]
 
     @testset "Case-sensitive types have empty name_normalize" begin

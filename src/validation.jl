@@ -151,6 +151,29 @@ validate_purl(::PyPITypeRules, purl) = nothing  # No extra validation beyond nor
 # Julia rules (T074)
 normalize_name(::JuliaTypeRules, name::AbstractString) = String(name)
 
+# RFC 4122 UUID format regex pattern (8-4-4-4-12 hex digits)
+const RFC4122_UUID_REGEX = r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+
+"""
+    is_valid_rfc4122_uuid(s::AbstractString) -> Bool
+
+Check if a string matches RFC 4122 UUID format (8-4-4-4-12 hex digits with hyphens).
+
+This is stricter than Julia's `tryparse(UUID, ...)` which accepts various formats.
+PURL specification requires the canonical RFC 4122 format for UUID qualifiers.
+
+# Examples
+```julia
+is_valid_rfc4122_uuid("12345678-1234-1234-1234-123456789012")  # true
+is_valid_rfc4122_uuid("00000000-0000-0000-0000-000000000000")  # true (nil UUID)
+is_valid_rfc4122_uuid("not-a-uuid")                            # false
+is_valid_rfc4122_uuid("1234567890abcdef1234567890abcdef")      # false (missing hyphens)
+```
+"""
+function is_valid_rfc4122_uuid(s::AbstractString)
+    return occursin(RFC4122_UUID_REGEX, s)
+end
+
 """
     validate_purl(::JuliaTypeRules, purl)
 
@@ -164,13 +187,20 @@ function validate_purl(::JuliaTypeRules, purl)
         throw(PURLError("Julia PURL requires 'uuid' qualifier"))
     end
 
-    # Validate UUID format per RFC 4122
     uuid_str = purl.qualifiers["uuid"]
-    if tryparse(UUID, uuid_str) === nothing
+
+    # Validate RFC 4122 format FIRST (stricter than tryparse)
+    # Julia's tryparse(UUID, ...) is too permissive - it accepts UUIDs without hyphens
+    if !is_valid_rfc4122_uuid(uuid_str)
         throw(PURLError(
             "Invalid UUID format in 'uuid' qualifier: '$uuid_str' " *
             "does not match RFC 4122 format (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)"
         ))
+    end
+
+    # Then parse (should always succeed after format check, but kept for safety)
+    if tryparse(UUID, uuid_str) === nothing
+        throw(PURLError("Invalid UUID value: '$uuid_str'"))
     end
 
     return nothing

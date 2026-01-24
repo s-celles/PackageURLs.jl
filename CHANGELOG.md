@@ -34,7 +34,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Nothing yet
 
 ### Fixed
-- Nothing yet
+- Julia UUID validation now strictly validates RFC 4122 format (8-4-4-4-12 hex digits with hyphens)
+- NuGet package names are now correctly normalized to lowercase for PURL canonical form
 
 ### Security
 - Nothing yet
