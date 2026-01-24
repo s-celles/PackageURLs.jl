@@ -27,6 +27,7 @@
 
 # Core project files
 !Project.toml
+!Artifacts.toml
 !.github/
 !.github/**
 !.codecov.yml
@@ -66,6 +67,8 @@ benchmark/*.json
 !test/fixtures/*.json
 !test/fixtures/type_definitions/
 !test/fixtures/type_definitions/*.json
+!test/fixtures/schemas/
+!test/fixtures/schemas/*.json
 
 # Scripts
 !scripts/

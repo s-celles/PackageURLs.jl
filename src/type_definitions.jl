@@ -2,6 +2,62 @@
 # Per ECMA-427 Section 6 - Type Definition Schema
 
 using JSON3
+using Pkg.Artifacts
+
+# Subdirectory name within the purl_spec artifact (GitHub archive naming convention)
+const PURL_SPEC_SUBDIR = "purl-spec-1.0.0"
+
+"""
+    purl_spec_path() -> String
+
+Return the path to the bundled purl-spec v1.0.0 artifact root.
+
+This directory contains the full purl-spec repository including type definitions,
+test fixtures, JSON schemas, and documentation.
+
+# Example
+```julia
+root = purl_spec_path()
+# ~/.julia/artifacts/<hash>/purl-spec-1.0.0/
+```
+"""
+function purl_spec_path()
+    return joinpath(artifact"purl_spec", PURL_SPEC_SUBDIR)
+end
+
+"""
+    type_definitions_path() -> String
+
+Return the path to the bundled PURL type definitions directory.
+
+Contains 37 official type definition JSON files (e.g., `pypi-definition.json`).
+
+# Example
+```julia
+types_dir = type_definitions_path()
+# ~/.julia/artifacts/<hash>/purl-spec-1.0.0/types/
+```
+"""
+function type_definitions_path()
+    return joinpath(purl_spec_path(), "types")
+end
+
+"""
+    test_fixtures_path() -> String
+
+Return the path to the bundled PURL test fixtures directory.
+
+Contains official test cases for each type (e.g., `types/pypi-test.json`).
+
+# Example
+```julia
+tests_dir = test_fixtures_path()
+# ~/.julia/artifacts/<hash>/purl-spec-1.0.0/tests/
+```
+"""
+function test_fixtures_path()
+    return joinpath(purl_spec_path(), "tests")
+end
 
 """
     TypeDefinition
@@ -269,6 +325,36 @@ clear_type_registry!()  # Back to default rules
 """
 function clear_type_registry!()
     empty!(TYPE_REGISTRY)
+    return nothing
+end
+
+"""
+    load_bundled_type_definitions!()
+
+Load all official PURL type definitions from the bundled purl-spec artifact.
+
+This function loads all 37 official type definitions from the bundled purl-spec v1.0.0
+artifact and registers them in the global TYPE_REGISTRY. It is called automatically
+when the PURL module is loaded.
+
+# Example
+```julia
+# Usually called automatically on module load, but can be called manually:
+clear_type_registry!()
+load_bundled_type_definitions!()
+```
+"""
+function load_bundled_type_definitions!()
+    dir = type_definitions_path()
+    for file in readdir(dir, join=true)
+        endswith(file, "-definition.json") || continue
+        try
+            def = load_type_definition(file)
+            register_type_definition!(def)
+        catch e
+            @warn "Failed to load type definition" file exception=e
+        end
+    end
     return nothing
 end
 

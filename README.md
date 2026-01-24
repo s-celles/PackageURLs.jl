@@ -16,6 +16,8 @@ Pkg.add(url="https://github.com/s-celles/PURL.jl")  # until unregistered
 # Pkg.add("PURL")  # when registered to General registry
 ```
 
+The package includes all 35 official PURL type definitions from [purl-spec v1.0.0](https://github.com/package-url/purl-spec/releases/tag/v1.0.0), bundled as a Julia artifact. Type definitions are automatically loaded when you first use the package.
+
 ## Quick Start
 
 ```julia

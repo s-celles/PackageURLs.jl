@@ -3,6 +3,16 @@
 """
 Download official PURL type definitions from the purl-spec GitHub repository.
 
+NOTE: This script is for DEVELOPMENT USE ONLY. The PURL.jl package bundles
+official type definitions as a Julia artifact (purl-spec v1.0.0), so end users
+do not need to run this script. Type definitions are automatically loaded when
+the package is first used.
+
+Use this script when:
+- Developing new features that need the latest upstream definitions
+- Testing against specific versions of type definitions
+- Updating the local development copy of type definitions
+
 Usage:
     julia scripts/download_type_definitions.jl              # Download all official types
     julia scripts/download_type_definitions.jl cargo swift  # Download specific types

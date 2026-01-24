@@ -1,0 +1,8 @@
+# purl-spec v1.0.0 - Official PURL specification from ECMA-427
+# Source: https://github.com/package-url/purl-spec/releases/tag/v1.0.0
+[purl_spec]
+git-tree-sha1 = "be1776a6642b8251a95fed0b8ae4d188c7d0b342"
+
+[[purl_spec.download]]
+url = "https://github.com/package-url/purl-spec/archive/refs/tags/v1.0.0.tar.gz"
+sha256 = "3bf8fd5252a3329644a04d7a18170ad9946f437e21ceb44c5a0f743fb48f9bb3"

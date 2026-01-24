@@ -20,6 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Type-specific validation rules for Julia, npm, PyPI ecosystems
 - Official PURL test suite integration
 - Comprehensive documentation with Documenter.jl
+- Bundle official purl-spec v1.0.0 as Julia artifact with all 35 type definitions
+- `purl_spec_path()`, `type_definitions_path()`, `test_fixtures_path()` functions for accessing bundled files
+- `load_bundled_type_definitions!()` for loading official type definitions (called automatically on module load)
 
 ### Changed
 - Nothing yet
