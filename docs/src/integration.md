@@ -22,7 +22,7 @@ purl_string = string(vuln_purl)     # Full PURL string
 
 ### OSV JSON Generation
 
-The [Open Source Vulnerability (OSV) format](https://ossf.github.io/osv-schema/) uses PURLs to identify affected packages:
+The [Open Source Vulnerability (OSV) format](https://ossf.github.io/osv-schema/) could use PURLs to identify affected packages:
 
 ```julia
 using PURL
