@@ -4,7 +4,7 @@ PURL.jl was created to support the Julia security ecosystem. This page documents
 
 ## SecurityAdvisories.jl
 
-[SecurityAdvisories.jl](https://github.com/JuliaLang/SecurityAdvisories.jl) uses PURL.jl for generating OSV-compliant security advisories in JSON format.
+[SecurityAdvisories.jl](https://github.com/JuliaLang/SecurityAdvisories.jl) could use PURL.jl for generating OSV-compliant security advisories in JSON format.
 
 ### Basic Usage
 
