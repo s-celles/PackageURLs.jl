@@ -1,6 +1,6 @@
 name = "PURL"
 uuid = "c2271b70-7219-4bda-bcc3-62ec08ead5b7"
-version = "0.1.0"
+version = "0.3.2"
 authors = ["PURL.jl Contributors"]
 
 [deps]
