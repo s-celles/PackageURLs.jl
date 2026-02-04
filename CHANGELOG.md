@@ -1,11 +1,34 @@
 # Changelog
 
-All notable changes to PackageURL.jl will be documented in this file.
+All notable changes to PackageURLs.jl will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.5.0] - 2026-02-04
+
+### Changed
+
+- **BREAKING**: Renamed package from `PackageURL.jl` to `PackageURLs.jl` per Julia General Registry naming guidelines
+- **BREAKING**: Renamed module from `PackageURL` to `PackageURLs`
+
+### Migration Guide
+
+To migrate from PackageURL.jl (0.4.x) to PackageURLs.jl (0.5.0+):
+
+```julia
+# Before (PackageURL.jl)
+using PackageURL
+purl = parse(PURL, "pkg:npm/lodash@4.17.21")
+
+# After (PackageURLs.jl)
+using PackageURLs
+purl = parse(PURL, "pkg:npm/lodash@4.17.21")
+```
+
+Summary: Only the module import name changes. The `PURL` type name remains unchanged.
 
 ## [0.4.0] - 2026-02-04
 
@@ -67,6 +90,7 @@ Summary of changes:
 - Serialize PURLs to canonical string format
 - String macro for PURL literals
 
-[Unreleased]: https://github.com/s-celles/PackageURL.jl/compare/v0.4.0...HEAD
-[0.4.0]: https://github.com/s-celles/PackageURL.jl/compare/v0.1.0...v0.4.0
-[0.1.0]: https://github.com/s-celles/PackageURL.jl/releases/tag/v0.1.0
+[Unreleased]: https://github.com/s-celles/PackageURLs.jl/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/s-celles/PackageURLs.jl/compare/v0.4.0...v0.5.0
+[0.4.0]: https://github.com/s-celles/PackageURLs.jl/compare/v0.1.0...v0.4.0
+[0.1.0]: https://github.com/s-celles/PackageURLs.jl/releases/tag/v0.1.0

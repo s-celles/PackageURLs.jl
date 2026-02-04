@@ -7,7 +7,7 @@ This page provides ecosystem-specific examples for creating and parsing PURLs.
 Julia PURLs require the `uuid` qualifier for package disambiguation:
 
 ```julia
-using PackageURL
+using PackageURLs
 
 # Standard library package
 purl"pkg:julia/Dates@1.9.0?uuid=ade2ca70-3891-5945-98fb-dc099432e06a"
@@ -165,7 +165,7 @@ purl"pkg:github/JuliaLang/julia@v1.9.0#base/strings"
 Instead of parsing strings, you can construct PURLs directly:
 
 ```julia
-using PackageURL
+using PackageURLs
 
 # Basic PURL
 purl = PURL("npm", nothing, "lodash", "4.17.21", nothing, nothing)

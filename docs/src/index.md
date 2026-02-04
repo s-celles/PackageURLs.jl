@@ -1,4 +1,4 @@
-# PackageURL.jl
+# PackageURLs.jl
 
 A pure-Julia implementation of the [Package URL (PURL)](https://github.com/package-url/purl-spec) specification ([ECMA-427](https://www.ecma-international.org/publications-and-standards/standards/ecma-427/)).
 
@@ -9,8 +9,8 @@ Package URLs (PURLs) are a standardized way to identify and locate software pack
 ```julia
 using Pkg
 using Pkg
-Pkg.add(url="https://github.com/s-celles/PackageURL.jl")  # until unregistered
-#Pkg.add("PackageURL")  # when registered to General registry
+Pkg.add(url="https://github.com/s-celles/PackageURLs.jl")  # until unregistered
+#Pkg.add("PackageURLs")  # when registered to General registry
 ```
 
 ## Quick Start
@@ -18,7 +18,7 @@ Pkg.add(url="https://github.com/s-celles/PackageURL.jl")  # until unregistered
 ### Parsing PURLs
 
 ```julia
-using PackageURL
+using PackageURLs
 
 # Parse a PURL string
 purl = parse(PURL, "pkg:npm/lodash@4.17.21")
@@ -66,7 +66,7 @@ See [PURL Components](@ref) for detailed documentation of each component.
 
 ## Supported Ecosystems
 
-PackageURL.jl supports all standard PURL types with type-specific validation:
+PackageURLs.jl supports all standard PURL types with type-specific validation:
 
 - **Julia** - Requires `uuid` qualifier for package disambiguation
 - **npm** - Supports scoped packages (`@scope/name`)
@@ -80,5 +80,5 @@ See [Examples](@ref) for ecosystem-specific usage patterns.
 
 - [PURL Components](@ref) - Detailed component reference
 - [Examples](@ref) - Ecosystem-specific examples
-- [Integration Guide](@ref) - Using PackageURL.jl with SecurityAdvisories.jl
+- [Integration Guide](@ref) - Using PackageURLs.jl with SecurityAdvisories.jl
 - [API Reference](@ref) - Complete API documentation

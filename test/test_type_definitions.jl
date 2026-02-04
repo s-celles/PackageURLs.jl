@@ -1,8 +1,8 @@
 # Tests for JSON-based type definition loading (Feature 007)
 
 # Access internal functions for testing
-using PackageURL: normalize_name, validate_purl
-using PackageURL: purl_spec_path, type_definitions_path, test_fixtures_path
+using PackageURLs: normalize_name, validate_purl
+using PackageURLs: purl_spec_path, type_definitions_path, test_fixtures_path
 
 # Helper function to get path to a type definition from artifact
 # Artifact uses naming convention: type-definition.json (e.g., pypi-definition.json)
@@ -55,7 +55,7 @@ end
         @test isempty(list_type_definitions())
 
         # Load bundled types
-        PackageURL.load_bundled_type_definitions!()
+        PackageURLs.load_bundled_type_definitions!()
 
         # Verify all types loaded (35 in purl-spec v1.0.0)
         defs = list_type_definitions()
@@ -75,7 +75,7 @@ end
 
         # Reload bundled types
         clear_type_registry!()
-        PackageURL.load_bundled_type_definitions!()
+        PackageURLs.load_bundled_type_definitions!()
 
         defs = list_type_definitions()
         for type_name in expected_types
@@ -321,7 +321,7 @@ end
         register_type_definition!(def)
 
         # Get type rules - should use registry
-        rules = PackageURL.type_rules("pypi")
+        rules = PackageURLs.type_rules("pypi")
         @test rules isa JsonTypeRules
         @test rules.definition.description == "Custom PyPI"
 
@@ -329,8 +329,8 @@ end
         clear_type_registry!()
 
         # Now it should fall back to hardcoded
-        rules = PackageURL.type_rules("pypi")
-        @test rules isa PackageURL.PyPITypeRules
+        rules = PackageURLs.type_rules("pypi")
+        @test rules isa PackageURLs.PyPITypeRules
     end
 
     # Clean up after all tests
@@ -589,11 +589,11 @@ end
             def = load_type_definition(pypi_path)
             register_type_definition!(def)
 
-            rules = PackageURL.type_rules("pypi")
+            rules = PackageURLs.type_rules("pypi")
             @test rules isa JsonTypeRules
             # My_Package → lowercase → my_package → replace_underscore → my-package
-            @test PackageURL.normalize_name(rules, "My_Package") == "my-package"
-            @test PackageURL.normalize_name(rules, "Django_Rest") == "django-rest"
+            @test PackageURLs.normalize_name(rules, "My_Package") == "my-package"
+            @test PackageURLs.normalize_name(rules, "Django_Rest") == "django-rest"
 
             clear_type_registry!()
         else
@@ -609,11 +609,11 @@ end
             def = load_type_definition(cargo_path)
             register_type_definition!(def)
 
-            rules = PackageURL.type_rules("cargo")
+            rules = PackageURLs.type_rules("cargo")
             @test rules isa JsonTypeRules
             # Cargo is case-sensitive, names preserved
-            @test PackageURL.normalize_name(rules, "Serde") == "Serde"
-            @test PackageURL.normalize_name(rules, "TOKIO") == "TOKIO"
+            @test PackageURLs.normalize_name(rules, "Serde") == "Serde"
+            @test PackageURLs.normalize_name(rules, "TOKIO") == "TOKIO"
 
             clear_type_registry!()
         else

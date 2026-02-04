@@ -1,4 +1,4 @@
-module PackageURL
+module PackageURLs
 
 # Include source files (order matters for dependencies)
 include("types.jl")
@@ -29,4 +29,4 @@ function __init__()
     load_bundled_type_definitions!()
 end
 
-end # module PackageURL
+end # module PackageURLs

@@ -1,7 +1,7 @@
-name = "PackageURL"
+name = "PackageURLs"
 uuid = "c2271b70-7219-4bda-bcc3-62ec08ead5b7"
-version = "0.4.0"
-authors = ["PackageURL.jl Contributors"]
+version = "0.5.0"
+authors = ["PackageURLs.jl Contributors"]
 
 [deps]
 JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"

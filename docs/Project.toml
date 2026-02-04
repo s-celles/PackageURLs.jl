@@ -1,7 +1,7 @@
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
-PackageURL = "c2271b70-7219-4bda-bcc3-62ec08ead5b7"
+PackageURLs = "c2271b70-7219-4bda-bcc3-62ec08ead5b7"
 
 [compat]
 Documenter = "1"

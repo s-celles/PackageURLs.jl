@@ -4,11 +4,12 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 0.4.x   | :white_check_mark: |
+| 0.5.x   | :white_check_mark: |
+| 0.4.x   | :x:                |
 
 ## Reporting a Vulnerability
 
-We take security vulnerabilities seriously. If you discover a security issue in PackageURL.jl, please report it responsibly.
+We take security vulnerabilities seriously. If you discover a security issue in PackageURLs.jl, please report it responsibly.
 
 ### How to Report
 
@@ -16,7 +17,7 @@ We take security vulnerabilities seriously. If you discover a security issue in 
 
 Instead, please report security vulnerabilities by emailing the maintainers directly or using GitHub's private vulnerability reporting feature:
 
-1. Go to the [Security tab](https://github.com/s-celles/PackageURL.jl/security) of the repository
+1. Go to the [Security tab](https://github.com/s-celles/PackageURLs.jl/security) of the repository
 2. Click "Report a vulnerability"
 3. Fill out the vulnerability report form
 
@@ -27,7 +28,7 @@ Please include the following information in your report:
 - **Description**: A clear description of the vulnerability
 - **Impact**: What an attacker could achieve by exploiting this vulnerability
 - **Reproduction Steps**: Step-by-step instructions to reproduce the issue
-- **Affected Versions**: Which versions of PackageURL.jl are affected
+- **Affected Versions**: Which versions of PackageURLs.jl are affected
 - **Proof of Concept**: Code or commands that demonstrate the vulnerability (if applicable)
 - **Suggested Fix**: Your recommendations for fixing the issue (if any)
 
@@ -39,11 +40,11 @@ Please include the following information in your report:
 - **Resolution**: We aim to resolve critical vulnerabilities within 30 days
 - **Credit**: We will credit you in the security advisory (unless you prefer to remain anonymous)
 
-## Security Considerations for PackageURL.jl
+## Security Considerations for PackageURLs.jl
 
 ### Input Validation
 
-PackageURL.jl performs validation on all input strings:
+PackageURLs.jl performs validation on all input strings:
 
 - **Scheme validation**: Only `pkg:` scheme is accepted
 - **Type validation**: Must start with a letter, contain only allowed characters
@@ -52,8 +53,8 @@ PackageURL.jl performs validation on all input strings:
 
 ### Known Limitations
 
-- PackageURL.jl is a parsing library and does not make network requests
-- PackageURL.jl does not execute any code from parsed PURL strings
+- PackageURLs.jl is a parsing library and does not make network requests
+- PackageURLs.jl does not execute any code from parsed PURL strings
 - Type-specific validation is implemented for Julia, PyPI, and npm types only
 
 ### Safe Usage Guidelines
@@ -83,7 +84,7 @@ Security updates will be released as patch versions (e.g., 0.4.1, 0.4.2) and ann
 
 ## Dependencies
 
-PackageURL.jl is a pure Julia package with minimal dependencies, reducing the attack surface from third-party code.
+PackageURLs.jl is a pure Julia package with minimal dependencies, reducing the attack surface from third-party code.
 
 ## Contact
 

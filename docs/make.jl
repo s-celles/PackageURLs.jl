@@ -1,17 +1,17 @@
 using Documenter
-using PackageURL
+using PackageURLs
 
-DocMeta.setdocmeta!(PackageURL, :DocTestSetup, :(using PackageURL); recursive=true)
+DocMeta.setdocmeta!(PackageURLs, :DocTestSetup, :(using PackageURLs); recursive=true)
 
 makedocs(;
-    modules=[PackageURL],
-    authors="PackageURL.jl Contributors",
-    sitename="PackageURL.jl",
-    repo=Documenter.Remotes.GitHub("s-celles", "PackageURL.jl"),
+    modules=[PackageURLs],
+    authors="PackageURLs.jl Contributors",
+    sitename="PackageURLs.jl",
+    repo=Documenter.Remotes.GitHub("s-celles", "PackageURLs.jl"),
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
         assets=String[],
-        repolink="https://github.com/s-celles/PackageURL.jl",
+        repolink="https://github.com/s-celles/PackageURLs.jl",
     ),
     pages=[
         "Home" => "index.md",
@@ -24,6 +24,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/s-celles/PackageURL.jl",
+    repo="github.com/s-celles/PackageURLs.jl",
     devbranch="main",
 )

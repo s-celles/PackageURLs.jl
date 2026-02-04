@@ -2,10 +2,10 @@
 
 ## Module
 
-The `PackageURL` module provides the `PURL` type and related functions for working with Package URLs.
+The `PackageURLs` module provides the `PURL` type and related functions for working with Package URLs.
 
 ```julia
-using PackageURL
+using PackageURLs
 ```
 
 ## Types

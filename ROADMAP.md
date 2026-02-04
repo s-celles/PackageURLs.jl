@@ -1,10 +1,10 @@
-# PackageURL.jl Roadmap
+# PackageURLs.jl Roadmap
 
-This document outlines the development status and future plans for PackageURL.jl.
+This document outlines the development status and future plans for PackageURLs.jl.
 
 ## Current Status
 
-PackageURL.jl aims for full compliance with ECMA-427 (1st edition, December 2025). The implementation passes the official purl-spec test suite and correctly handles the core PURL format.
+PackageURLs.jl aims for full compliance with ECMA-427 (1st edition, December 2025). The implementation passes the official purl-spec test suite and correctly handles the core PURL format.
 
 ### ECMA-427 Compliance Status
 
@@ -49,6 +49,11 @@ Additional types can be added via JSON type definitions without code changes.
 
 ## Version History
 
+### v0.5.0 - Package Rename (Pluralization) ✓
+- [x] Renamed package from PackageURL.jl to PackageURLs.jl per Julia General Registry naming guidelines
+- [x] Renamed module from PackageURL to PackageURLs
+- [x] PURL struct name unchanged (no module/type collision with "PackageURLs")
+
 ### v0.4.0 - Package Rename and Initial Release ✓
 - [x] Renamed package from PURL.jl to PackageURL.jl for Julia General Registry compliance
 - [x] Renamed module from PURL to PackageURL
@@ -83,7 +88,7 @@ Additional types can be added via JSON type definitions without code changes.
 
 ## Upcoming
 
-### v0.5.0 - Post-Release Improvements
+### v0.6.0 - Post-Release Improvements
 - [ ] Complete documentation review
 - [ ] API documentation audit
 - [ ] Performance optimization if needed

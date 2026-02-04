@@ -1,10 +1,10 @@
 using Test
-using PackageURL
+using PackageURLs
 using Aqua
 using JSONSchema
 using JSON3
 
-@testset "PackageURL.jl" begin
+@testset "PackageURLs.jl" begin
     include("test_types.jl")
     include("test_encoding.jl")
     include("test_parse.jl")
@@ -14,7 +14,7 @@ using JSON3
     include("test_type_definitions.jl")
 
     @testset "Aqua.jl Quality Assurance" begin
-        Aqua.test_all(PackageURL;
+        Aqua.test_all(PackageURLs;
             ambiguities = false,  # Skip ambiguity checks for now
             deps_compat = (check_extras = false, check_weakdeps = false),
         )

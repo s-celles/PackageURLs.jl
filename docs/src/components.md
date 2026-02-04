@@ -24,7 +24,7 @@ pkg:type[/namespace]/name[@version][?qualifiers][#subpath]
 ## Accessing Components
 
 ```julia
-using PackageURL
+using PackageURLs
 
 purl = parse(PURL, "pkg:maven/org.apache.commons/commons-lang3@3.12.0?classifier=sources")
 
@@ -38,7 +38,7 @@ purl.subpath    # nothing
 
 ## Supported Package Types
 
-PackageURL.jl supports all standard PURL types, including:
+PackageURLs.jl supports all standard PURL types, including:
 
 | Type | Ecosystem | Notes |
 |------|-----------|-------|

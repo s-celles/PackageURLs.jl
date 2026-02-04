@@ -1,15 +1,15 @@
 # Integration Guide
 
-PackageURL.jl was created to support the Julia security ecosystem. This page documents integration patterns with related packages.
+PackageURLs.jl was created to support the Julia security ecosystem. This page documents integration patterns with related packages.
 
 ## SecurityAdvisories.jl
 
-[SecurityAdvisories.jl](https://github.com/JuliaLang/SecurityAdvisories.jl) could use PackageURL.jl for generating OSV-compliant security advisories in JSON format.
+[SecurityAdvisories.jl](https://github.com/JuliaLang/SecurityAdvisories.jl) could use PackageURLs.jl for generating OSV-compliant security advisories in JSON format.
 
 ### Basic Usage
 
 ```julia
-using PackageURL
+using PackageURLs
 
 # Create PURL for a vulnerable package
 vuln_purl = purl"pkg:julia/Example@1.0.0?uuid=7876af07-990d-54b4-ab0e-23690620f79a"
@@ -25,7 +25,7 @@ purl_string = string(vuln_purl)     # Full PURL string
 The [Open Source Vulnerability (OSV) format](https://ossf.github.io/osv-schema/) could use PURLs to identify affected packages:
 
 ```julia
-using PackageURL
+using PackageURLs
 using JSON
 
 # Create PURL for affected package
@@ -59,7 +59,7 @@ osv_json = JSON.json(osv_affected, 2)
 When an advisory affects multiple packages:
 
 ```julia
-using PackageURL
+using PackageURLs
 
 # List of affected packages
 affected_packages = [
@@ -85,7 +85,7 @@ affected_entries = [
 When processing OSV advisories that contain PURL strings:
 
 ```julia
-using PackageURL
+using PackageURLs
 
 # PURL string from OSV JSON
 purl_string = "pkg:julia/Example@1.0.0?uuid=7876af07-990d-54b4-ab0e-23690620f79a"
