@@ -3,22 +3,22 @@
 const PURL_SCHEME = "pkg:"
 
 """
-    Base.parse(::Type{PackageURL}, s::AbstractString) -> PackageURL
+    Base.parse(::Type{PURL}, s::AbstractString) -> PURL
 
-Parse a PURL string into a PackageURL object.
+Parse a PURL string into a PURL object.
 
 The PURL format is: `pkg:type[/namespace]/name[@version][?qualifiers][#subpath]`
 
 # Examples
 ```julia
-parse(PackageURL, "pkg:julia/Example@1.0.0")
-parse(PackageURL, "pkg:npm/%40angular/core@12.0.0")
-parse(PackageURL, "pkg:maven/org.apache/commons@1.0?repo=central")
+parse(PURL, "pkg:julia/Example@1.0.0")
+parse(PURL, "pkg:npm/%40angular/core@12.0.0")
+parse(PURL, "pkg:maven/org.apache/commons@1.0?repo=central")
 ```
 
 Throws `PURLError` if the input is not a valid PURL.
 """
-function Base.parse(::Type{PackageURL}, s::AbstractString)
+function Base.parse(::Type{PURL}, s::AbstractString)
     s = strip(s)
     isempty(s) && throw(PURLError("PURL string cannot be empty", 1))
 
@@ -106,8 +106,8 @@ function Base.parse(::Type{PackageURL}, s::AbstractString)
     rules = type_rules(purl_type)
     name = normalize_name(rules, name)
 
-    # Create the PackageURL
-    purl = PackageURL(purl_type, namespace, name, version, qualifiers, subpath)
+    # Create the PURL
+    purl = PURL(purl_type, namespace, name, version, qualifiers, subpath)
 
     # Apply type-specific validation
     validate_purl(rules, purl)
@@ -138,19 +138,19 @@ function parse_subpath(s::AbstractString)
 end
 
 """
-    Base.tryparse(::Type{PackageURL}, s::AbstractString) -> Union{PackageURL, Nothing}
+    Base.tryparse(::Type{PURL}, s::AbstractString) -> Union{PURL, Nothing}
 
 Try to parse a PURL string, returning `nothing` if parsing fails.
 
 # Examples
 ```julia
-result = tryparse(PackageURL, "pkg:julia/Example@1.0.0")  # PackageURL
-result = tryparse(PackageURL, "invalid")                  # nothing
+result = tryparse(PURL, "pkg:julia/Example@1.0.0")  # PURL
+result = tryparse(PURL, "invalid")                  # nothing
 ```
 """
-function Base.tryparse(::Type{PackageURL}, s::AbstractString)
+function Base.tryparse(::Type{PURL}, s::AbstractString)
     try
-        return parse(PackageURL, s)
+        return parse(PURL, s)
     catch e
         e isa PURLError && return nothing
         rethrow()

@@ -1,4 +1,4 @@
-# PURL.jl
+# PackageURL.jl
 
 A pure-Julia implementation of the [Package URL (PURL)](https://github.com/package-url/purl-spec) specification ([ECMA-427](https://www.ecma-international.org/publications-and-standards/standards/ecma-427/)).
 
@@ -8,8 +8,7 @@ Package URLs (PURLs) are a standardized way to identify and locate software pack
 
 ```julia
 using Pkg
-Pkg.add(url="https://github.com/s-celles/PURL.jl")  # until unregistered
-# Pkg.add("PURL")  # when registered to General registry
+Pkg.add("PackageURL")
 ```
 
 ## Quick Start
@@ -17,10 +16,10 @@ Pkg.add(url="https://github.com/s-celles/PURL.jl")  # until unregistered
 ### Parsing PURLs
 
 ```julia
-using PURL
+using PackageURL
 
 # Parse a PURL string
-purl = parse(PackageURL, "pkg:npm/lodash@4.17.21")
+purl = parse(PURL, "pkg:npm/lodash@4.17.21")
 
 # Access components
 purl.type       # "npm"
@@ -39,7 +38,7 @@ purl = purl"pkg:pypi/requests@2.28.0"
 
 ```julia
 # Create a PURL programmatically
-purl = PackageURL("npm", "@angular", "core", "15.0.0", nothing, nothing)
+purl = PURL("npm", "@angular", "core", "15.0.0", nothing, nothing)
 
 # Convert to string
 string(purl)  # "pkg:npm/%40angular/core@15.0.0"
@@ -49,7 +48,7 @@ string(purl)  # "pkg:npm/%40angular/core@15.0.0"
 
 ```julia
 # Returns nothing on parse failure instead of throwing
-result = tryparse(PackageURL, "invalid-purl")
+result = tryparse(PURL, "invalid-purl")
 result === nothing  # true
 ```
 
@@ -65,7 +64,7 @@ See [PURL Components](@ref) for detailed documentation of each component.
 
 ## Supported Ecosystems
 
-PURL.jl supports all standard PURL types with type-specific validation:
+PackageURL.jl supports all standard PURL types with type-specific validation:
 
 - **Julia** - Requires `uuid` qualifier for package disambiguation
 - **npm** - Supports scoped packages (`@scope/name`)
@@ -79,5 +78,5 @@ See [Examples](@ref) for ecosystem-specific usage patterns.
 
 - [PURL Components](@ref) - Detailed component reference
 - [Examples](@ref) - Ecosystem-specific examples
-- [Integration Guide](@ref) - Using PURL.jl with SecurityAdvisories.jl
+- [Integration Guide](@ref) - Using PackageURL.jl with SecurityAdvisories.jl
 - [API Reference](@ref) - Complete API documentation

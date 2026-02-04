@@ -24,9 +24,9 @@ pkg:type[/namespace]/name[@version][?qualifiers][#subpath]
 ## Accessing Components
 
 ```julia
-using PURL
+using PackageURL
 
-purl = parse(PackageURL, "pkg:maven/org.apache.commons/commons-lang3@3.12.0?classifier=sources")
+purl = parse(PURL, "pkg:maven/org.apache.commons/commons-lang3@3.12.0?classifier=sources")
 
 purl.type       # "maven"
 purl.namespace  # "org.apache.commons"
@@ -38,7 +38,7 @@ purl.subpath    # nothing
 
 ## Supported Package Types
 
-PURL.jl supports all standard PURL types, including:
+PackageURL.jl supports all standard PURL types, including:
 
 | Type | Ecosystem | Notes |
 |------|-----------|-------|
@@ -66,7 +66,7 @@ Julia PURLs **require** the `uuid` qualifier for package disambiguation. This is
 purl"pkg:julia/Example@1.0.0?uuid=7876af07-990d-54b4-ab0e-23690620f79a"
 
 # Invalid - missing uuid qualifier
-parse(PackageURL, "pkg:julia/Example@1.0.0")  # Throws PURLError
+parse(PURL, "pkg:julia/Example@1.0.0")  # Throws PURLError
 ```
 
 The UUID can be found in the package's `Project.toml` file or in the Julia General registry.
@@ -77,9 +77,9 @@ PyPI package names are normalized to lowercase, with underscores converted to hy
 
 ```julia
 # These all refer to the same package
-parse(PackageURL, "pkg:pypi/Django@4.0").name      # "django"
-parse(PackageURL, "pkg:pypi/DJANGO@4.0").name      # "django"
-parse(PackageURL, "pkg:pypi/some_package").name    # "some-package"
+parse(PURL, "pkg:pypi/Django@4.0").name      # "django"
+parse(PURL, "pkg:pypi/DJANGO@4.0").name      # "django"
+parse(PURL, "pkg:pypi/some_package").name    # "some-package"
 ```
 
 ### npm

@@ -16,7 +16,7 @@ include("fixtures.jl")
                     input = tc.input::String
                     expected = tc.expected_output::PURLComponents
 
-                    purl = parse(PackageURL, input)
+                    purl = parse(PURL, input)
 
                     @test purl.type == expected.type
                     @test purl.namespace == expected.namespace
@@ -32,7 +32,7 @@ include("fixtures.jl")
             for tc in failure_tests(parse_cases)
                 @testset "$(tc.description)" begin
                     input = tc.input::String
-                    @test_throws PURLError parse(PackageURL, input)
+                    @test_throws PURLError parse(PURL, input)
                 end
             end
         end
@@ -51,7 +51,7 @@ include("fixtures.jl")
                     # Skip if type is nothing (can't build without type)
                     input.type === nothing && continue
 
-                    purl = PackageURL(
+                    purl = PURL(
                         input.type,
                         input.namespace,
                         input.name === nothing ? "" : input.name,
@@ -72,7 +72,7 @@ include("fixtures.jl")
 
                     # Building with null/empty required fields should throw
                     @test_throws Exception begin
-                        PackageURL(
+                        PURL(
                             input.type === nothing ? "" : input.type,
                             input.namespace,
                             input.name === nothing ? "" : input.name,
@@ -96,7 +96,7 @@ include("fixtures.jl")
                 expected_canonical = tc.expected_output::String
 
                 # Parse the input
-                purl = parse(PackageURL, input)
+                purl = parse(PURL, input)
 
                 # Serialize back to string
                 serialized = string(purl)
@@ -105,7 +105,7 @@ include("fixtures.jl")
                 @test serialized == expected_canonical
 
                 # Re-parse and compare objects
-                reparsed = parse(PackageURL, serialized)
+                reparsed = parse(PURL, serialized)
                 @test purl == reparsed
             end
         end
@@ -121,7 +121,7 @@ include("fixtures.jl")
                     input = tc.input::String
                     expected = tc.expected_output::PURLComponents
 
-                    purl = parse(PackageURL, input)
+                    purl = parse(PURL, input)
 
                     @test purl.type == expected.type
                     @test purl.namespace == expected.namespace
@@ -139,7 +139,7 @@ include("fixtures.jl")
                     input = tc.input::String
 
                     # Test that invalid PURLs return nothing from tryparse
-                    result = tryparse(PackageURL, input)
+                    result = tryparse(PURL, input)
                     @test result === nothing
                 end
             end
@@ -156,7 +156,7 @@ include("fixtures.jl")
                     input = tc.input::PURLComponents
                     expected_purl = tc.expected_output::String
 
-                    purl = PackageURL(
+                    purl = PURL(
                         input.type,
                         input.namespace,
                         input.name === nothing ? "" : input.name,
@@ -176,7 +176,7 @@ include("fixtures.jl")
                     input = tc.input::PURLComponents
 
                     @test_throws Exception begin
-                        PackageURL(
+                        PURL(
                             input.type === nothing ? "" : input.type,
                             input.namespace,
                             input.name === nothing ? "" : input.name,
@@ -199,12 +199,12 @@ include("fixtures.jl")
                 input = tc.input::String
                 expected_canonical = tc.expected_output::String
 
-                purl = parse(PackageURL, input)
+                purl = parse(PURL, input)
                 serialized = string(purl)
 
                 @test serialized == expected_canonical
 
-                reparsed = parse(PackageURL, serialized)
+                reparsed = parse(PURL, serialized)
                 @test purl == reparsed
             end
         end
@@ -220,7 +220,7 @@ include("fixtures.jl")
                     input = tc.input::String
                     expected = tc.expected_output::PURLComponents
 
-                    purl = parse(PackageURL, input)
+                    purl = parse(PURL, input)
 
                     @test purl.type == expected.type
                     @test purl.namespace == expected.namespace
@@ -238,11 +238,11 @@ include("fixtures.jl")
                     input = tc.input::String
 
                     # Test that invalid UUID formats return nothing from tryparse
-                    result = tryparse(PackageURL, input)
+                    result = tryparse(PURL, input)
                     @test result === nothing
 
                     # Also verify it throws PURLError when using parse
-                    @test_throws PURLError parse(PackageURL, input)
+                    @test_throws PURLError parse(PURL, input)
                 end
             end
         end

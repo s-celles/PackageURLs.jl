@@ -1,15 +1,15 @@
 # Integration Guide
 
-PURL.jl was created to support the Julia security ecosystem. This page documents integration patterns with related packages.
+PackageURL.jl was created to support the Julia security ecosystem. This page documents integration patterns with related packages.
 
 ## SecurityAdvisories.jl
 
-[SecurityAdvisories.jl](https://github.com/JuliaLang/SecurityAdvisories.jl) could use PURL.jl for generating OSV-compliant security advisories in JSON format.
+[SecurityAdvisories.jl](https://github.com/JuliaLang/SecurityAdvisories.jl) could use PackageURL.jl for generating OSV-compliant security advisories in JSON format.
 
 ### Basic Usage
 
 ```julia
-using PURL
+using PackageURL
 
 # Create PURL for a vulnerable package
 vuln_purl = purl"pkg:julia/Example@1.0.0?uuid=7876af07-990d-54b4-ab0e-23690620f79a"
@@ -25,7 +25,7 @@ purl_string = string(vuln_purl)     # Full PURL string
 The [Open Source Vulnerability (OSV) format](https://ossf.github.io/osv-schema/) could use PURLs to identify affected packages:
 
 ```julia
-using PURL
+using PackageURL
 using JSON
 
 # Create PURL for affected package
@@ -59,7 +59,7 @@ osv_json = JSON.json(osv_affected, 2)
 When an advisory affects multiple packages:
 
 ```julia
-using PURL
+using PackageURL
 
 # List of affected packages
 affected_packages = [
@@ -85,13 +85,13 @@ affected_entries = [
 When processing OSV advisories that contain PURL strings:
 
 ```julia
-using PURL
+using PackageURL
 
 # PURL string from OSV JSON
 purl_string = "pkg:julia/Example@1.0.0?uuid=7876af07-990d-54b4-ab0e-23690620f79a"
 
 # Safe parsing with error handling
-purl = tryparse(PackageURL, purl_string)
+purl = tryparse(PURL, purl_string)
 if purl !== nothing
     println("Package: $(purl.name)")
     println("Version: $(purl.version)")
@@ -113,7 +113,7 @@ Julia PURLs require the `uuid` qualifier. Without it, the PURL is ambiguous sinc
 purl"pkg:julia/HTTP@1.10.0?uuid=cd3eb016-35fb-5094-929b-558a96fad6f3"
 
 # Incorrect - will throw PURLError
-parse(PackageURL, "pkg:julia/HTTP@1.10.0")
+parse(PURL, "pkg:julia/HTTP@1.10.0")
 ```
 
 ### Use tryparse for External Data
@@ -122,7 +122,7 @@ When parsing PURLs from external sources (OSV feeds, databases), always use `try
 
 ```julia
 function process_advisory(purl_string::String)
-    purl = tryparse(PackageURL, purl_string)
+    purl = tryparse(PURL, purl_string)
     if purl === nothing
         @warn "Skipping invalid PURL: $purl_string"
         return nothing
@@ -137,7 +137,7 @@ end
 When processing Julia-specific advisories, verify the package type:
 
 ```julia
-purl = parse(PackageURL, purl_string)
+purl = parse(PURL, purl_string)
 if purl.type != "julia"
     error("Expected Julia PURL, got type: $(purl.type)")
 end

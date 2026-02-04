@@ -1,17 +1,17 @@
-# PURL serialization - convert PackageURL to string
+# PURL serialization - convert PURL to string
 
 """
-    Base.string(purl::PackageURL) -> String
+    Base.string(purl::PURL) -> String
 
-Convert a PackageURL to its canonical string representation.
+Convert a PURL to its canonical string representation.
 
 # Examples
 ```julia
-purl = PackageURL("julia", nothing, "Example", "1.0.0", nothing, nothing)
+purl = PURL("julia", nothing, "Example", "1.0.0", nothing, nothing)
 string(purl)  # => "pkg:julia/Example@1.0.0"
 ```
 """
-function Base.string(purl::PackageURL)
+function Base.string(purl::PURL)
     io = IOBuffer()
 
     # Scheme and type
@@ -57,18 +57,18 @@ function encode_subpath(s::AbstractString)
 end
 
 # Print method
-function Base.print(io::IO, purl::PackageURL)
+function Base.print(io::IO, purl::PURL)
     print(io, string(purl))
 end
 
 # Compact show
-function Base.show(io::IO, purl::PackageURL)
-    print(io, "PackageURL(\"", string(purl), "\")")
+function Base.show(io::IO, purl::PURL)
+    print(io, "PURL(\"", string(purl), "\")")
 end
 
 # Verbose show
-function Base.show(io::IO, ::MIME"text/plain", purl::PackageURL)
-    println(io, "PackageURL:")
+function Base.show(io::IO, ::MIME"text/plain", purl::PURL)
+    println(io, "PURL:")
     println(io, "  type:       ", purl.type)
     if purl.namespace !== nothing
         println(io, "  namespace:  ", purl.namespace)

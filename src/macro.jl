@@ -3,7 +3,7 @@
 """
     @purl_str(s)
 
-Create a PackageURL from a string literal with compile-time validation.
+Create a PURL from a string literal with compile-time validation.
 
 # Examples
 ```julia
@@ -15,9 +15,9 @@ Invalid PURLs will cause a compile-time error.
 """
 macro purl_str(s)
     # Parse at macro expansion time to validate
-    purl = parse(PackageURL, s)
+    purl = parse(PURL, s)
 
-    # Return an expression that reconstructs the PackageURL at runtime
+    # Return an expression that reconstructs the PURL at runtime
     # This allows the compiler to inline the known values
     qualifiers_expr = if purl.qualifiers === nothing
         nothing
@@ -25,7 +25,7 @@ macro purl_str(s)
         :(Dict{String, String}($([(k => v) for (k, v) in purl.qualifiers]...)))
     end
 
-    return :(PackageURL(
+    return :(PURL(
         $(purl.type),
         $(purl.namespace),
         $(purl.name),

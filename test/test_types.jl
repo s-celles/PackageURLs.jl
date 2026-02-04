@@ -20,9 +20,9 @@
         @test String(take!(io)) == "PURLError: test at position 10"
     end
 
-    @testset "PackageURL struct" begin
+    @testset "PURL struct" begin
         # Test basic construction
-        purl = PackageURL("julia", nothing, "Example")
+        purl = PURL("julia", nothing, "Example")
         @test purl.type == "julia"
         @test purl.namespace === nothing
         @test purl.name == "Example"
@@ -31,7 +31,7 @@
         @test purl.subpath === nothing
 
         # Test with all fields
-        purl = PackageURL("npm", "@angular", "core", "12.0.0",
+        purl = PURL("npm", "@angular", "core", "12.0.0",
                           Dict("registry" => "npmjs.org"), "lib")
         @test purl.type == "npm"
         @test purl.namespace == "@angular"
@@ -41,34 +41,34 @@
         @test purl.subpath == "lib"
 
         # Test qualifier key normalization
-        purl = PackageURL("julia", nothing, "Example", nothing,
+        purl = PURL("julia", nothing, "Example", nothing,
                           Dict("Registry_URL" => "value"))
         @test haskey(purl.qualifiers, "registry_url")
         @test !haskey(purl.qualifiers, "Registry_URL")
     end
 
-    @testset "PackageURL validation" begin
+    @testset "PURL validation" begin
         # Empty type should throw
-        @test_throws PURLError PackageURL("", nothing, "Example")
+        @test_throws PURLError PURL("", nothing, "Example")
 
         # Invalid type characters should throw
-        @test_throws PURLError PackageURL("Julia", nothing, "Example")  # uppercase
-        @test_throws PURLError PackageURL("julia!", nothing, "Example") # invalid char
+        @test_throws PURLError PURL("Julia", nothing, "Example")  # uppercase
+        @test_throws PURLError PURL("julia!", nothing, "Example") # invalid char
 
         # Empty name should throw
-        @test_throws PURLError PackageURL("julia", nothing, "")
+        @test_throws PURLError PURL("julia", nothing, "")
 
         # Plus sign not allowed in type per ECMA-427 Section 5.6.2
-        @test_throws PURLError PackageURL("c++", nothing, "boost")
+        @test_throws PURLError PURL("c++", nothing, "boost")
 
         # Valid edge cases: period and dash are allowed
-        @test PackageURL("a.b-c", nothing, "test").type == "a.b-c"
+        @test PURL("a.b-c", nothing, "test").type == "a.b-c"
     end
 
-    @testset "PackageURL equality and hashing" begin
-        purl1 = PackageURL("julia", nothing, "Example", "1.0.0")
-        purl2 = PackageURL("julia", nothing, "Example", "1.0.0")
-        purl3 = PackageURL("julia", nothing, "Example", "2.0.0")
+    @testset "PURL equality and hashing" begin
+        purl1 = PURL("julia", nothing, "Example", "1.0.0")
+        purl2 = PURL("julia", nothing, "Example", "1.0.0")
+        purl3 = PURL("julia", nothing, "Example", "2.0.0")
 
         @test purl1 == purl2
         @test purl1 != purl3

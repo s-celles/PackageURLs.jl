@@ -1,10 +1,10 @@
-# PURL.jl Roadmap
+# PackageURL.jl Roadmap
 
-This document outlines the development status and future plans for PURL.jl.
+This document outlines the development status and future plans for PackageURL.jl.
 
 ## Current Status
 
-PURL.jl aims for full compliance with ECMA-427 (1st edition, December 2025). The implementation passes the official purl-spec test suite and correctly handles the core PURL format.
+PackageURL.jl aims for full compliance with ECMA-427 (1st edition, December 2025). The implementation passes the official purl-spec test suite and correctly handles the core PURL format.
 
 ### ECMA-427 Compliance Status
 
@@ -17,7 +17,7 @@ PURL.jl aims for full compliance with ECMA-427 (1st edition, December 2025). The
 | 5.6.3 | Encode namespace segments individually | Implemented |
 | 6 | Type Definition Schema Support | Implemented |
 
-**Note:** Full compliance verification is pending for v0.4.0 release.
+**Note:** Full compliance verification is pending for v0.5.0 release.
 
 ### Completed Features
 
@@ -49,6 +49,28 @@ Additional types can be added via JSON type definitions without code changes.
 
 ## Version History
 
+### v0.4.0 - Package Rename and Initial Release ✓
+- [x] Renamed package from PURL.jl to PackageURL.jl for Julia General Registry compliance
+- [x] Renamed module from PURL to PackageURL
+- [x] Renamed struct from PackageURL to PURL (to avoid module/type collision)
+- [x] Full ECMA-427 compliance
+- [x] All 35 official type definitions bundled
+
+### v0.3.2 - Official Type Test Coverage ✓
+- [x] All 37 official purl-spec type definitions verified to load correctly
+- [x] Normalization derivation tests
+- [x] Qualifier extraction tests
+- [x] JSONSchema validation against official purl-type-definition schema
+
+### v0.3.1 - Official Type Definition Format Support ✓
+- [x] Support official ECMA-427 type definition schema format from purl-spec repository
+
+### v0.3.0 - Extended Type Support ✓
+- [x] Add maven type rules
+- [x] Add nuget type rules
+- [x] Add golang type rules
+- [x] JSON-based type definition loading (Feature 007)
+
 ### v0.2.0 - Full ECMA-427 Compliance ✓
 - [x] Fix scheme slash handling
 - [x] Fix type character validation
@@ -57,38 +79,13 @@ Additional types can be added via JSON type definitions without code changes.
 - [x] Fix namespace segment encoding
 - [x] Add compliance test cases
 
-### v0.3.0 - Extended Type Support ✓
-- [x] Add maven type rules
-- [x] Add nuget type rules
-- [x] Add golang type rules
-- [x] JSON-based type definition loading (Feature 007)
-
-### v0.3.1 - Official Type Definition Format Support ✓
-- [x] Support official ECMA-427 type definition schema format from purl-spec repository
-  - Parse `name_definition.case_sensitive` → lowercase normalization
-  - Parse `name_definition.normalization_rules` text patterns
-  - Parse `qualifiers_definition` array format
-- [x] Test against official purl-spec type definitions (cargo, pypi, npm, maven, etc.)
-
-### v0.3.2 - Official Type Test Coverage ✓
-- [x] All 37 official purl-spec type definitions verified to load correctly
-- [x] Normalization derivation tests:
-  - 15 lowercase types verified (alpm, apk, bitbucket, bitnami, composer, deb, github, golang, hex, luarocks, npm, oci, otp, pub, pypi)
-  - 22 case-sensitive types verified (bazel, cargo, cocoapods, conan, conda, cpan, cran, docker, gem, generic, hackage, huggingface, julia, maven, mlflow, nuget, opam, qpkg, rpm, swid, swift, yocto)
-  - pypi underscore replacement verified
-- [x] Qualifier extraction tests (maven, pypi, julia, swid)
-- [x] JSONSchema validation against official purl-type-definition schema
-  - 34 types pass schema validation
-  - 3 types have upstream schema issues (bazel, julia, yocto) - see UPSTREAM-ISSUES.md
-- [x] CONTRIBUTING.md with type definition maintenance guide
-
 ---
 
 ## Upcoming
 
-### v0.4.0 - Release Candidate
-- [ ] Complete documentation
-- [ ] API documentation review
+### v0.5.0 - Post-Release Improvements
+- [ ] Complete documentation review
+- [ ] API documentation audit
 - [ ] Performance optimization if needed
 - [ ] Final test coverage review
 

@@ -1,6 +1,6 @@
-# Contributing to PURL.jl
+# Contributing to PackageURL.jl
 
-Thank you for your interest in contributing to PURL.jl! This document provides guidelines and information for contributors.
+Thank you for your interest in contributing to PackageURL.jl! This document provides guidelines and information for contributors.
 
 ## Getting Started
 
@@ -13,8 +13,8 @@ Thank you for your interest in contributing to PURL.jl! This document provides g
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/s-celles/PURL.jl.git
-   cd PURL.jl
+   git clone https://github.com/s-celles/PackageURL.jl.git
+   cd PackageURL.jl
    ```
 
 2. Start Julia with the project:
@@ -132,10 +132,10 @@ end
 ## Project Structure
 
 ```
-PURL.jl/
+PackageURL.jl/
 ├── src/
-│   ├── PURL.jl          # Main module
-│   ├── types.jl         # Core types (PackageURL, PURLError)
+│   ├── PackageURL.jl    # Main module
+│   ├── types.jl         # Core types (PURL, PURLError)
 │   ├── parse.jl         # Parsing implementation
 │   ├── serialize.jl     # String conversion
 │   ├── encoding.jl      # Percent encoding/decoding
@@ -154,7 +154,7 @@ PURL.jl/
 
 ## Type Definition Maintenance
 
-PURL.jl uses official type definitions from the [purl-spec](https://github.com/package-url/purl-spec) repository. These definitions follow the ECMA-427 schema.
+PackageURL.jl uses official type definitions from the [purl-spec](https://github.com/package-url/purl-spec) repository. These definitions follow the ECMA-427 schema.
 
 ### Updating Type Definitions
 
@@ -183,7 +183,7 @@ When new types are added to purl-spec:
 
 3. Verify the type loads correctly:
    ```julia
-   using PURL
+   using PackageURL
    def = load_type_definition("data/type_definitions/newtype.json")
    ```
 
@@ -225,7 +225,7 @@ The Julia PURL type was added via [purl-spec#540](https://github.com/package-url
 Example Julia PURLs:
 ```
 pkg:julia/Dates@1.9.0?uuid=ade2ca70-3891-5945-98fb-dc099432e06a
-pkg:julia/PURL@0.1.0?uuid=c2271b70-7219-4bda-bcc3-62ec08ead5b7
+pkg:julia/PackageURL@0.4.0?uuid=c2271b70-7219-4bda-bcc3-62ec08ead5b7
 ```
 
 ## Adding Support for New PURL Types
@@ -283,4 +283,4 @@ julia --project=docs -e 'using Pkg; Pkg.instantiate(); include("docs/make.jl")'
 
 ## License
 
-By contributing to PURL.jl, you agree that your contributions will be licensed under the MIT License.
+By contributing to PackageURL.jl, you agree that your contributions will be licensed under the MIT License.

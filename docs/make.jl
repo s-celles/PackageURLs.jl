@@ -1,17 +1,17 @@
 using Documenter
-using PURL
+using PackageURL
 
-DocMeta.setdocmeta!(PURL, :DocTestSetup, :(using PURL); recursive=true)
+DocMeta.setdocmeta!(PackageURL, :DocTestSetup, :(using PackageURL); recursive=true)
 
 makedocs(;
-    modules=[PURL],
-    authors="PURL.jl Contributors",
-    sitename="PURL.jl",
-    repo=Documenter.Remotes.GitHub("s-celles", "PURL.jl"),
+    modules=[PackageURL],
+    authors="PackageURL.jl Contributors",
+    sitename="PackageURL.jl",
+    repo=Documenter.Remotes.GitHub("s-celles", "PackageURL.jl"),
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
         assets=String[],
-        repolink="https://github.com/s-celles/PURL.jl",
+        repolink="https://github.com/s-celles/PackageURL.jl",
     ),
     pages=[
         "Home" => "index.md",
@@ -24,6 +24,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/s-celles/PURL.jl",
+    repo="github.com/s-celles/PackageURL.jl",
     devbranch="main",
 )

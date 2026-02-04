@@ -10,7 +10,7 @@ Exception thrown when PURL parsing or validation fails.
 # Examples
 ```julia
 try
-    parse(PackageURL, "invalid")
+    parse(PURL, "invalid")
 catch e::PURLError
     println("Error at position \$(e.position): \$(e.message)")
 end
@@ -28,7 +28,7 @@ Base.showerror(io::IO, e::PURLError) = print(io, "PURLError: ", e.message,
     e.position !== nothing ? " at position $(e.position)" : "")
 
 """
-    PackageURL
+    PURL
 
 Represents a Package URL (PURL) as specified in ECMA-427.
 
@@ -47,10 +47,10 @@ package managers, and packaging conventions.
 # Examples
 ```julia
 # Parse from string
-purl = parse(PackageURL, "pkg:julia/Example@1.0.0")
+purl = parse(PURL, "pkg:julia/Example@1.0.0")
 
 # Construct programmatically
-purl = PackageURL("julia", nothing, "Example", "1.0.0", nothing, nothing)
+purl = PURL("julia", nothing, "Example", "1.0.0", nothing, nothing)
 
 # Use string macro
 purl = purl"pkg:julia/Example@1.0.0"
@@ -59,7 +59,7 @@ purl = purl"pkg:julia/Example@1.0.0"
 string(purl)  # => "pkg:julia/Example@1.0.0"
 ```
 """
-struct PackageURL
+struct PURL
     type::String
     namespace::Union{String, Nothing}
     name::String
@@ -67,11 +67,11 @@ struct PackageURL
     qualifiers::Union{Dict{String, String}, Nothing}
     subpath::Union{String, Nothing}
 
-    function PackageURL(type::AbstractString, namespace::Union{AbstractString, Nothing},
-                        name::AbstractString,
-                        version::Union{AbstractString, Nothing}=nothing,
-                        qualifiers::Union{AbstractDict, Nothing}=nothing,
-                        subpath::Union{AbstractString, Nothing}=nothing)
+    function PURL(type::AbstractString, namespace::Union{AbstractString, Nothing},
+                  name::AbstractString,
+                  version::Union{AbstractString, Nothing}=nothing,
+                  qualifiers::Union{AbstractDict, Nothing}=nothing,
+                  subpath::Union{AbstractString, Nothing}=nothing)
         # Validate type
         isempty(type) && throw(PURLError("type cannot be empty"))
         # Type must start with a letter and contain only lowercase alphanumeric with .+-
@@ -113,7 +113,7 @@ struct PackageURL
 end
 
 # Equality
-function Base.:(==)(a::PackageURL, b::PackageURL)
+function Base.:(==)(a::PURL, b::PURL)
     a.type == b.type &&
     a.namespace == b.namespace &&
     a.name == b.name &&
@@ -123,7 +123,7 @@ function Base.:(==)(a::PackageURL, b::PackageURL)
 end
 
 # Hashing
-function Base.hash(purl::PackageURL, h::UInt)
+function Base.hash(purl::PURL, h::UInt)
     h = hash(purl.type, h)
     h = hash(purl.namespace, h)
     h = hash(purl.name, h)

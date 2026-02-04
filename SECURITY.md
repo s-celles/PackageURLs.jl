@@ -4,11 +4,11 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 0.3.2   | :white_check_mark: |
+| 0.4.x   | :white_check_mark: |
 
 ## Reporting a Vulnerability
 
-We take security vulnerabilities seriously. If you discover a security issue in PURL.jl, please report it responsibly.
+We take security vulnerabilities seriously. If you discover a security issue in PackageURL.jl, please report it responsibly.
 
 ### How to Report
 
@@ -16,7 +16,7 @@ We take security vulnerabilities seriously. If you discover a security issue in 
 
 Instead, please report security vulnerabilities by emailing the maintainers directly or using GitHub's private vulnerability reporting feature:
 
-1. Go to the [Security tab](https://github.com/s-celles/PURL.jl/security) of the repository
+1. Go to the [Security tab](https://github.com/s-celles/PackageURL.jl/security) of the repository
 2. Click "Report a vulnerability"
 3. Fill out the vulnerability report form
 
@@ -27,7 +27,7 @@ Please include the following information in your report:
 - **Description**: A clear description of the vulnerability
 - **Impact**: What an attacker could achieve by exploiting this vulnerability
 - **Reproduction Steps**: Step-by-step instructions to reproduce the issue
-- **Affected Versions**: Which versions of PURL.jl are affected
+- **Affected Versions**: Which versions of PackageURL.jl are affected
 - **Proof of Concept**: Code or commands that demonstrate the vulnerability (if applicable)
 - **Suggested Fix**: Your recommendations for fixing the issue (if any)
 
@@ -39,11 +39,11 @@ Please include the following information in your report:
 - **Resolution**: We aim to resolve critical vulnerabilities within 30 days
 - **Credit**: We will credit you in the security advisory (unless you prefer to remain anonymous)
 
-## Security Considerations for PURL.jl
+## Security Considerations for PackageURL.jl
 
 ### Input Validation
 
-PURL.jl performs validation on all input strings:
+PackageURL.jl performs validation on all input strings:
 
 - **Scheme validation**: Only `pkg:` scheme is accepted
 - **Type validation**: Must start with a letter, contain only allowed characters
@@ -52,8 +52,8 @@ PURL.jl performs validation on all input strings:
 
 ### Known Limitations
 
-- PURL.jl is a parsing library and does not make network requests
-- PURL.jl does not execute any code from parsed PURL strings
+- PackageURL.jl is a parsing library and does not make network requests
+- PackageURL.jl does not execute any code from parsed PURL strings
 - Type-specific validation is implemented for Julia, PyPI, and npm types only
 
 ### Safe Usage Guidelines
@@ -64,7 +64,7 @@ PURL.jl performs validation on all input strings:
 
 ```julia
 # Safe: Use tryparse for untrusted input
-result = tryparse(PackageURL, untrusted_input)
+result = tryparse(PURL, untrusted_input)
 if result === nothing
     # Handle invalid input
 end
@@ -75,7 +75,7 @@ end
 
 ## Security Updates
 
-Security updates will be released as patch versions (e.g., 0.1.1, 0.1.2) and announced through:
+Security updates will be released as patch versions (e.g., 0.4.1, 0.4.2) and announced through:
 
 - GitHub Security Advisories
 - Release notes in CHANGELOG.md
@@ -83,7 +83,7 @@ Security updates will be released as patch versions (e.g., 0.1.1, 0.1.2) and ann
 
 ## Dependencies
 
-PURL.jl is a pure Julia package with no external dependencies, minimizing the attack surface from third-party code.
+PackageURL.jl is a pure Julia package with minimal dependencies, reducing the attack surface from third-party code.
 
 ## Contact
 

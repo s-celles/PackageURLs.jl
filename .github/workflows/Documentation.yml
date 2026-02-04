@@ -47,6 +47,6 @@ jobs:
         shell: julia --project=docs --color=yes {0}
         run: |
           using Documenter: DocMeta, doctest
-          using PURL
-          DocMeta.setdocmeta!(PURL, :DocTestSetup, :(using PURL); recursive=true)
-          doctest(PURL)
+          using PackageURL
+          DocMeta.setdocmeta!(PackageURL, :DocTestSetup, :(using PackageURL); recursive=true)
+          doctest(PackageURL)

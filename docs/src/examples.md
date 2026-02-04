@@ -7,7 +7,7 @@ This page provides ecosystem-specific examples for creating and parsing PURLs.
 Julia PURLs require the `uuid` qualifier for package disambiguation:
 
 ```julia
-using PURL
+using PackageURL
 
 # Standard library package
 purl"pkg:julia/Dates@1.9.0?uuid=ade2ca70-3891-5945-98fb-dc099432e06a"
@@ -17,7 +17,7 @@ purl"pkg:julia/HTTP@1.10.0?uuid=cd3eb016-35fb-5094-929b-558a96fad6f3"
 purl"pkg:julia/Example@1.0.0?uuid=7876af07-990d-54b4-ab0e-23690620f79a"
 
 # Access components
-purl = parse(PackageURL, "pkg:julia/Example@1.0.0?uuid=7876af07-990d-54b4-ab0e-23690620f79a")
+purl = parse(PURL, "pkg:julia/Example@1.0.0?uuid=7876af07-990d-54b4-ab0e-23690620f79a")
 purl.type       # "julia"
 purl.name       # "Example"
 purl.version    # "1.0.0"
@@ -46,7 +46,7 @@ purl"pkg:npm/%40types/node@18.0.0"
 purl"pkg:npm/%40babel/core@7.20.0"
 
 # Parse and access components
-purl = parse(PackageURL, "pkg:npm/%40angular/core@15.0.0")
+purl = parse(PURL, "pkg:npm/%40angular/core@15.0.0")
 purl.namespace  # "@angular"
 purl.name       # "core"
 ```
@@ -62,8 +62,8 @@ purl"pkg:pypi/numpy@1.24.0"
 purl"pkg:pypi/pandas@2.0.0"
 
 # Name normalization
-parse(PackageURL, "pkg:pypi/Django@4.1").name       # "django"
-parse(PackageURL, "pkg:pypi/Flask_RESTful").name    # "flask-restful"
+parse(PURL, "pkg:pypi/Django@4.1").name       # "django"
+parse(PURL, "pkg:pypi/Flask_RESTful").name    # "flask-restful"
 
 # With qualifiers
 purl"pkg:pypi/tensorflow@2.12.0?os=linux&arch=x86_64"
@@ -87,7 +87,7 @@ purl"pkg:maven/org.apache.commons/commons-lang3@3.12.0?classifier=sources"
 purl"pkg:maven/org.apache.commons/commons-lang3@3.12.0?type=pom"
 
 # Access components
-purl = parse(PackageURL, "pkg:maven/org.apache.commons/commons-lang3@3.12.0")
+purl = parse(PURL, "pkg:maven/org.apache.commons/commons-lang3@3.12.0")
 purl.namespace  # "org.apache.commons"
 purl.name       # "commons-lang3"
 ```
@@ -165,18 +165,18 @@ purl"pkg:github/JuliaLang/julia@v1.9.0#base/strings"
 Instead of parsing strings, you can construct PURLs directly:
 
 ```julia
-using PURL
+using PackageURL
 
 # Basic PURL
-purl = PackageURL("npm", nothing, "lodash", "4.17.21", nothing, nothing)
+purl = PURL("npm", nothing, "lodash", "4.17.21", nothing, nothing)
 string(purl)  # "pkg:npm/lodash@4.17.21"
 
 # With namespace
-purl = PackageURL("npm", "@angular", "core", "15.0.0", nothing, nothing)
+purl = PURL("npm", "@angular", "core", "15.0.0", nothing, nothing)
 string(purl)  # "pkg:npm/%40angular/core@15.0.0"
 
 # With qualifiers
-purl = PackageURL(
+purl = PURL(
     "maven",
     "org.apache.commons",
     "commons-lang3",
@@ -193,12 +193,12 @@ Use `tryparse` for graceful error handling:
 
 ```julia
 # Returns nothing on parse failure
-result = tryparse(PackageURL, "invalid-purl")
+result = tryparse(PURL, "invalid-purl")
 result === nothing  # true
 
 # Use in conditional logic
 purl_string = "pkg:npm/lodash@4.17.21"
-if (purl = tryparse(PackageURL, purl_string)) !== nothing
+if (purl = tryparse(PURL, purl_string)) !== nothing
     println("Package: $(purl.name)")
 else
     println("Invalid PURL")
