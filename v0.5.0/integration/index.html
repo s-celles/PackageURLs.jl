@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Integration Guide · PackageURLs.jl</title><meta name="title" content="Integration Guide · PackageURLs.jl"/><meta property="og:title" content="Integration Guide · PackageURLs.jl"/><meta property="twitter:title" content="Integration Guide · PackageURLs.jl"/><meta name="description" content="Documentation for PackageURLs.jl."/><meta property="og:description" content="Documentation for PackageURLs.jl."/><meta property="twitter:description" content="Documentation for PackageURLs.jl."/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">PackageURLs.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><a class="tocitem" href="../components/">PURL Components</a></li><li><a class="tocitem" href="../examples/">Examples</a></li><li class="is-active"><a class="tocitem" href>Integration Guide</a><ul class="internal"><li><a class="tocitem" href="#SecurityAdvisories.jl"><span>SecurityAdvisories.jl</span></a></li><li><a class="tocitem" href="#Parsing-PURLs-from-OSV-Data"><span>Parsing PURLs from OSV Data</span></a></li><li><a class="tocitem" href="#Best-Practices"><span>Best Practices</span></a></li><li><a class="tocitem" href="#Related-Projects"><span>Related Projects</span></a></li></ul></li><li><a class="tocitem" href="../api/">API Reference</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Integration Guide</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Integration Guide</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/s-celles/PackageURLs.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/s-celles/PackageURLs.jl/blob/main/docs/src/integration.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Integration-Guide"><a class="docs-heading-anchor" href="#Integration-Guide">Integration Guide</a><a id="Integration-Guide-1"></a><a class="docs-heading-anchor-permalink" href="#Integration-Guide" title="Permalink"></a></h1><p>PackageURLs.jl was created to support the Julia security ecosystem. This page documents integration patterns with related packages.</p><h2 id="SecurityAdvisories.jl"><a class="docs-heading-anchor" href="#SecurityAdvisories.jl">SecurityAdvisories.jl</a><a id="SecurityAdvisories.jl-1"></a><a class="docs-heading-anchor-permalink" href="#SecurityAdvisories.jl" title="Permalink"></a></h2><p><a href="https://github.com/JuliaLang/SecurityAdvisories.jl">SecurityAdvisories.jl</a> could use PackageURLs.jl for generating OSV-compliant security advisories in JSON format.</p><h3 id="Basic-Usage"><a class="docs-heading-anchor" href="#Basic-Usage">Basic Usage</a><a id="Basic-Usage-1"></a><a class="docs-heading-anchor-permalink" href="#Basic-Usage" title="Permalink"></a></h3><pre><code class="language-julia hljs">using PackageURLs
+
+# Create PURL for a vulnerable package
+vuln_purl = purl&quot;pkg:julia/Example@1.0.0?uuid=7876af07-990d-54b4-ab0e-23690620f79a&quot;
+
+# Access components for advisory generation
+package_name = vuln_purl.name       # &quot;Example&quot;
+package_version = vuln_purl.version # &quot;1.0.0&quot;
+purl_string = string(vuln_purl)     # Full PURL string</code></pre><h3 id="OSV-JSON-Generation"><a class="docs-heading-anchor" href="#OSV-JSON-Generation">OSV JSON Generation</a><a id="OSV-JSON-Generation-1"></a><a class="docs-heading-anchor-permalink" href="#OSV-JSON-Generation" title="Permalink"></a></h3><p>The <a href="https://ossf.github.io/osv-schema/">Open Source Vulnerability (OSV) format</a> could use PURLs to identify affected packages:</p><pre><code class="language-julia hljs">using PackageURLs
+using JSON
+
+# Create PURL for affected package
+affected_purl = purl&quot;pkg:julia/VulnerablePackage@1.2.3?uuid=12345678-1234-1234-1234-123456789012&quot;
+
+# Build OSV affected entry
+osv_affected = Dict(
+    &quot;package&quot; =&gt; Dict(
+        &quot;ecosystem&quot; =&gt; &quot;Julia&quot;,
+        &quot;name&quot; =&gt; affected_purl.name,
+        &quot;purl&quot; =&gt; string(affected_purl)
+    ),
+    &quot;ranges&quot; =&gt; [
+        Dict(
+            &quot;type&quot; =&gt; &quot;ECOSYSTEM&quot;,
+            &quot;events&quot; =&gt; [
+                Dict(&quot;introduced&quot; =&gt; &quot;1.0.0&quot;),
+                Dict(&quot;fixed&quot; =&gt; &quot;1.2.4&quot;)
+            ]
+        )
+    ],
+    &quot;versions&quot; =&gt; [&quot;1.0.0&quot;, &quot;1.1.0&quot;, &quot;1.2.0&quot;, &quot;1.2.1&quot;, &quot;1.2.2&quot;, &quot;1.2.3&quot;]
+)
+
+# Serialize to JSON
+osv_json = JSON.json(osv_affected, 2)</code></pre><h3 id="Multiple-Affected-Packages"><a class="docs-heading-anchor" href="#Multiple-Affected-Packages">Multiple Affected Packages</a><a id="Multiple-Affected-Packages-1"></a><a class="docs-heading-anchor-permalink" href="#Multiple-Affected-Packages" title="Permalink"></a></h3><p>When an advisory affects multiple packages:</p><pre><code class="language-julia hljs">using PackageURLs
+
+# List of affected packages
+affected_packages = [
+    purl&quot;pkg:julia/PackageA@1.0.0?uuid=aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa&quot;,
+    purl&quot;pkg:julia/PackageB@2.0.0?uuid=bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb&quot;,
+]
+
+# Generate affected entries
+affected_entries = [
+    Dict(
+        &quot;package&quot; =&gt; Dict(
+            &quot;ecosystem&quot; =&gt; &quot;Julia&quot;,
+            &quot;name&quot; =&gt; p.name,
+            &quot;purl&quot; =&gt; string(p)
+        )
+    )
+    for p in affected_packages
+]</code></pre><h2 id="Parsing-PURLs-from-OSV-Data"><a class="docs-heading-anchor" href="#Parsing-PURLs-from-OSV-Data">Parsing PURLs from OSV Data</a><a id="Parsing-PURLs-from-OSV-Data-1"></a><a class="docs-heading-anchor-permalink" href="#Parsing-PURLs-from-OSV-Data" title="Permalink"></a></h2><p>When processing OSV advisories that contain PURL strings:</p><pre><code class="language-julia hljs">using PackageURLs
+
+# PURL string from OSV JSON
+purl_string = &quot;pkg:julia/Example@1.0.0?uuid=7876af07-990d-54b4-ab0e-23690620f79a&quot;
+
+# Safe parsing with error handling
+purl = tryparse(PURL, purl_string)
+if purl !== nothing
+    println(&quot;Package: $(purl.name)&quot;)
+    println(&quot;Version: $(purl.version)&quot;)
+    uuid_val = get(purl.qualifiers, &quot;uuid&quot;, &quot;unknown&quot;)
+    println(&quot;UUID: $uuid_val&quot;)
+else
+    @warn &quot;Invalid PURL in advisory: $purl_string&quot;
+end</code></pre><h2 id="Best-Practices"><a class="docs-heading-anchor" href="#Best-Practices">Best Practices</a><a id="Best-Practices-1"></a><a class="docs-heading-anchor-permalink" href="#Best-Practices" title="Permalink"></a></h2><h3 id="Always-Include-UUID-for-Julia-Packages"><a class="docs-heading-anchor" href="#Always-Include-UUID-for-Julia-Packages">Always Include UUID for Julia Packages</a><a id="Always-Include-UUID-for-Julia-Packages-1"></a><a class="docs-heading-anchor-permalink" href="#Always-Include-UUID-for-Julia-Packages" title="Permalink"></a></h3><p>Julia PURLs require the <code>uuid</code> qualifier. Without it, the PURL is ambiguous since package names are not globally unique:</p><pre><code class="language-julia hljs"># Correct - includes UUID
+purl&quot;pkg:julia/HTTP@1.10.0?uuid=cd3eb016-35fb-5094-929b-558a96fad6f3&quot;
+
+# Incorrect - will throw PURLError
+parse(PURL, &quot;pkg:julia/HTTP@1.10.0&quot;)</code></pre><h3 id="Use-tryparse-for-External-Data"><a class="docs-heading-anchor" href="#Use-tryparse-for-External-Data">Use tryparse for External Data</a><a id="Use-tryparse-for-External-Data-1"></a><a class="docs-heading-anchor-permalink" href="#Use-tryparse-for-External-Data" title="Permalink"></a></h3><p>When parsing PURLs from external sources (OSV feeds, databases), always use <code>tryparse</code> to handle malformed data gracefully:</p><pre><code class="language-julia hljs">function process_advisory(purl_string::String)
+    purl = tryparse(PURL, purl_string)
+    if purl === nothing
+        @warn &quot;Skipping invalid PURL: $purl_string&quot;
+        return nothing
+    end
+    # Process valid PURL
+    return purl
+end</code></pre><h3 id="Validate-Package-Type"><a class="docs-heading-anchor" href="#Validate-Package-Type">Validate Package Type</a><a id="Validate-Package-Type-1"></a><a class="docs-heading-anchor-permalink" href="#Validate-Package-Type" title="Permalink"></a></h3><p>When processing Julia-specific advisories, verify the package type:</p><pre><code class="language-julia hljs">purl = parse(PURL, purl_string)
+if purl.type != &quot;julia&quot;
+    error(&quot;Expected Julia PURL, got type: $(purl.type)&quot;)
+end</code></pre><h2 id="Related-Projects"><a class="docs-heading-anchor" href="#Related-Projects">Related Projects</a><a id="Related-Projects-1"></a><a class="docs-heading-anchor-permalink" href="#Related-Projects" title="Permalink"></a></h2><ul><li><a href="https://github.com/JuliaLang/SecurityAdvisories.jl">SecurityAdvisories.jl</a> - Julia security advisory database</li><li><a href="https://ossf.github.io/osv-schema/">OSV Schema</a> - Open Source Vulnerability format specification</li><li><a href="https://github.com/package-url/purl-spec">PURL Specification</a> - Package URL specification</li></ul></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../examples/">« Examples</a><a class="docs-footer-nextpage" href="../api/">API Reference »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Saturday 14 February 2026 16:52">Saturday 14 February 2026</span>. Using Julia version 1.12.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
