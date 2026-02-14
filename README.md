@@ -1,5 +1,6 @@
 # PackageURLs.jl
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18643147.svg)](https://doi.org/10.5281/zenodo.18643147)
 [![Build Status](https://github.com/s-celles/PackageURLs.jl/actions/workflows/CI.yml/badge.svg)](https://github.com/s-celles/PackageURLs.jl/actions/workflows/CI.yml)
 [![Documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://s-celles.github.io/PackageURLs.jl/dev)
 [![Coverage](https://codecov.io/gh/s-celles/PackageURLs.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/s-celles/PackageURLs.jl)
