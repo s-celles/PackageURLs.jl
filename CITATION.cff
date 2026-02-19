@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "PackageURLs.jl"
+authors:
+  - family-names: Celles
+    given-names: Sébastien
+    orcid: "https://orcid.org/0000-0001-9987-4338"
+    affiliation: "Université de Poitiers"
+version: "0.5.0"
+doi: "10.5281/zenodo.18643147"
+date-released: "2026-02-14"
+url: "https://github.com/s-celles/PackageURLs.jl"
+repository-code: "https://github.com/s-celles/PackageURLs.jl"
+license: MIT
+keywords:
+  - PURL
+  - Package URL
+  - Julia
+  - SBOM
+  - software supply chain
+  - ECMA-427
